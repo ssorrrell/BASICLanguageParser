@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+     <TargetFramework>netstandard2.0</TargetFramework>
+   </PropertyGroup>   
+
+   <ItemGroup>
+     <Antlr4 Include="jvmBasic.g4">
+       <Package>ECB2_Lib.Parser</Package>
+       <Visitor>true</Visitor>
+       <Error>false</Error>
+       <Listener>true</Listener>    
+	   <AntOutDir>..\ECB2_Lib.Parser</AntOutDir>	   
+     </Antlr4>
+   </ItemGroup>
+
+   <ItemGroup>
+     <PackageReference Include="Antlr4.Runtime.Standard" Version="4.9.3" />
+     <PackageReference Include="Antlr4BuildTasks" Version="8.17.0" />
+   </ItemGroup>
+ </Project>

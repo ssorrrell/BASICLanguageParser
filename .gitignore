@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/ECB2_Lib.Parser/obj
+/ECB2_Lib.Parser.UT/obj
+/ECB2_Lib.Parser.Grammar/obj
+/ECB2_Lib.Parser/bin
+/ECB2_Lib.Parser.UT/bin
+/ECB2_Lib.Parser.Grammar/bin

@@ -1,10 +1,7 @@
-ECB2 Parser Library
+# ECB2 Parser Library
 
-Lexer/Parser from antlr4 following instructions in the below link.  Create a basic parser built on jvmBasic.g4 grammar.  This is a BASIC grammar built from Apple and GW Basic.
+Lexer/Parser for 8 bit BASIC languages to be used as the core of a Language Server for a Visual Studio Extension.  See ECB2_Lib.Parser.Grammar sub project for how to build the lexer/parser that forms the basis of this project namespace.
 
-Target language is Extended Color Basic 2 for the Color Computer 3.  Intend to turn this into the basis for a Language Server.
+Unit tests, in ECB2_Lib.Parser.UT using NUnit, are provided to validate the individual language features.
 
-
-<https://stackoverflow.com/questions/19327831/antlr4-c-sharp-application-tutorial-example>
-
-<https://github.com/antlr/grammars-v4/tree/master/basic>
+Visual Studio 2016 Project due to the Antlr4 dependencies.

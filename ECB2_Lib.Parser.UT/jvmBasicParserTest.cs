@@ -36,23 +36,23 @@ namespace ECB2_Lib.Parser.UT
             string txt = "ABS(-5)";
             AntlrInputStream inputStream = new AntlrInputStream(txt);
             jvmBasicLexer lexer = new jvmBasicLexer(inputStream);
-            lexer.AddErrorListener(new ParserErrorHandler<int>());
+            lexer.AddErrorListener(new LexErrorListener());
             CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
             jvmBasicParser parser = new jvmBasicParser(commonTokenStream);
-            parser.AddErrorListener(new ParserErrorHandler<object>());
+            parser.AddErrorListener(new ErrorListener());
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
             jvmBasicBaseVisitor<object> visitor = new jvmBasicBaseVisitor<object>();
             visitor.Visit(absDefinitionContext);
             Assert.True(parser.NumberOfSyntaxErrors == 0);
             parser.RemoveErrorListeners();
 
-            txt = "ABS(\"G\")";
+            txt = "ABS\"G\")";
             inputStream = new AntlrInputStream(txt);
             lexer = new jvmBasicLexer(inputStream);
-            lexer.AddErrorListener(new ParserErrorHandler<int>());
+            lexer.AddErrorListener(new LexErrorListener());
             commonTokenStream = new CommonTokenStream(lexer);
             parser = new jvmBasicParser(commonTokenStream);
-            parser.AddErrorListener(new ParserErrorHandler<object>());
+            parser.AddErrorListener(new ErrorListener());
             absDefinitionContext = parser.absfunc();
             visitor = new jvmBasicBaseVisitor<object>();
             visitor.Visit(absDefinitionContext);

@@ -42,3 +42,5 @@ Links
 
 - Instructions <https://stackoverflow.com/questions/19327831/antlr4-c-sharp-application-tutorial-example>
 - Grammars <https://github.com/antlr/grammars-v4/tree/master/basic>
+- jvmBASIC <http://blog.khubla.com/java/jvmbasic-2-0>
+- List of BASIC Dialects <https://en.wikipedia.org/wiki/List_of_BASIC_dialects>

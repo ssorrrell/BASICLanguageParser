@@ -17,4 +17,8 @@
     <ProjectReference Include="..\ECB2_Lib.Parser\ECB2_Lib.Parser.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ExtendedColorBasic\" />
+  </ItemGroup>
+
 </Project>

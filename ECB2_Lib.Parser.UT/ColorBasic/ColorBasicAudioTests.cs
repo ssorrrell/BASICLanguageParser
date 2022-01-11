@@ -7,6 +7,10 @@ namespace ECB2_Lib.Parser.UT
 {
     public class ColorBasicAudioTests : BaseTest
     {
+        /**
+         * Tokens: SOUND AUDIO OFF
+         */
+
         [SetUp]
         public void Setup()
         {
@@ -15,7 +19,7 @@ namespace ECB2_Lib.Parser.UT
         /*************************************Tests****************************************/
 
         [Test]
-        public void Sound()
+        protected void Sound()
         {
             const string functionName = "SOUND";
             string test = "SOUND 33,22";
@@ -27,7 +31,7 @@ namespace ECB2_Lib.Parser.UT
 
         /*************************************Internal****************************************/
 
-        private int RunSound(string txt)
+        protected virtual int RunSound(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

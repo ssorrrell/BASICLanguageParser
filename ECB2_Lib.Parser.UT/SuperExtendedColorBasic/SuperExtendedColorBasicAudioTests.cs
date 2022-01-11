@@ -5,29 +5,23 @@ using Antlr4.Runtime.Tree;
 
 namespace ECB2_Lib.Parser.UT
 {
-    public class ExtendedColorBasic2GraphicsTests : BaseTest
+    public class SuperExtendedColorBasicAudioTests : ExtendedColorBasicAudioTests
     {
+        /**
+         * Tokens: SOUND AUDIO OFF
+         */
+
         [SetUp]
-        public void Setup()
+        public new void Setup()
         {
         }
 
         /*************************************Tests****************************************/
 
-        [Test]
-        public void Cls()
-        {
-            const string functionName = "CLS";
-            string test = "CLS 2";
-            int result = RunCls(test);
-            Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
-        }
-
-
 
         /*************************************Internal****************************************/
 
-        private int RunCls(string txt)
+        protected override int RunSound(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

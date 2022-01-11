@@ -5,29 +5,23 @@ using Antlr4.Runtime.Tree;
 
 namespace ECB2_Lib.Parser.UT
 {
-    public class ExtendedColorBasic2IOTests : BaseTest
+    public class ExtendedColorBasicIOTests : ColorBasicIOTests
     {
+        /**
+         * Tokens: INPUT INKEY$ CLOAD CSAVE PRINT OPEN CLOSE MOTOR TAB SKIPF EOF
+         */
+
         [SetUp]
-        public void Setup()
+        public new void Setup()
         {
         }
 
         /*************************************Tests****************************************/
 
-        [Test]
-        public void CLoad()
-        {
-            const string functionName = "CLOAD";
-            string test = "CLOAD \"PUPPIES\"";
-            int result = RunCLoad(test);
-            Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
-        }
-
-
 
         /*************************************Internal****************************************/
 
-        private int RunCLoad(string txt)
+        protected override int RunCLoad(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

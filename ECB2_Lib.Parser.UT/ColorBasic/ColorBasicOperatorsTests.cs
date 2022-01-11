@@ -7,6 +7,10 @@ namespace ECB2_Lib.Parser.UT
 {
     public class ColorBasicOperatorsTests : BaseTest
     {
+        /**
+         * Tokens: + - * / ^ > = < AND OR NOT :
+         */
+
         [SetUp]
         public void Setup()
         {
@@ -15,7 +19,7 @@ namespace ECB2_Lib.Parser.UT
         /*************************************Tests****************************************/
 
         [Test]
-        public void AND()
+        protected void AND()
         {
             const string functionName = "AND";
             string test = "Y = ABS(5)";
@@ -27,7 +31,7 @@ namespace ECB2_Lib.Parser.UT
 
         /*************************************Internal****************************************/
 
-        private int RunAnd(string txt)
+        protected virtual int RunAnd(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

@@ -7,6 +7,10 @@ namespace ECB2_Lib.Parser.UT
 {
     public class ColorBasicGraphicsTests : BaseTest
     {
+        /**
+         * Tokens: COLOR CLS
+         */
+
         [SetUp]
         public void Setup()
         {
@@ -15,7 +19,7 @@ namespace ECB2_Lib.Parser.UT
         /*************************************Tests****************************************/
 
         [Test]
-        public void Cls()
+        protected void Cls()
         {
             const string functionName = "CLS";
             string test = "CLS 2";
@@ -27,7 +31,7 @@ namespace ECB2_Lib.Parser.UT
 
         /*************************************Internal****************************************/
 
-        private int RunCls(string txt)
+        protected virtual int RunCls(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

@@ -5,29 +5,23 @@ using Antlr4.Runtime.Tree;
 
 namespace ECB2_Lib.Parser.UT
 {
-    public class ExtendedColorBasic2OperatorsTests : BaseTest
+    public class DiskExtendedColorBasicIOFunctionTests : DiskColorBasicIOFunctionsTests
     {
+        /**
+         * Tokens: CVN MKN$ EOF
+         */
+
         [SetUp]
-        public void Setup()
+        public new void Setup()
         {
         }
 
         /*************************************Tests****************************************/
 
-        [Test]
-        public void AND()
-        {
-            const string functionName = "AND";
-            string test = "Y = ABS(5)";
-            int result = RunAnd(test);
-            Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
-        }
-
-
 
         /*************************************Internal****************************************/
 
-        private int RunAnd(string txt)
+        protected override int RunCLoad(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

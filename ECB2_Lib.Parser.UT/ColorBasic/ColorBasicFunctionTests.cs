@@ -7,6 +7,10 @@ namespace ECB2_Lib.Parser.UT
 {
     public class ColorBasicFunctionTests: BaseTest
     {
+        /**
+         * Tokens: SGN, INT, ABS, RND, SIN, PEEK, LEN, STR$, VAL, ASC, CHR$, JOYSTK, LEFT$, RIGHT$, MID$, INKEY$
+         */
+
         [SetUp]
         public void Setup()
         {
@@ -15,7 +19,7 @@ namespace ECB2_Lib.Parser.UT
         /*************************************Tests****************************************/
 
         [Test]
-        public void ABS()
+        protected void ABS()
         {
             const string functionName = "ABS";
             string test = "Y = ABS(5)";
@@ -27,7 +31,7 @@ namespace ECB2_Lib.Parser.UT
 
         /*************************************Internal****************************************/
 
-        private int RunABS(string txt)
+        protected virtual int RunABS(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

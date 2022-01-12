@@ -8,7 +8,7 @@ namespace ECB2_Lib.Parser.UT
     public class ColorBasicStatementsTests : BaseTest
     {
         /**
-         * Tokens: FOR TO STEP NEXT IF THEN ELSE GO TO SUB RETURN ON RUN REM '
+         * Tokens: FOR TO STEP NEXT IF THEN ELSE GO TO SUB RETURN ON RUN REM ' END STOP CONT LIST LLIST
          */
 
         [SetUp]

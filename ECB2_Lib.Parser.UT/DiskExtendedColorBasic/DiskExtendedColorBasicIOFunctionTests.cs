@@ -5,14 +5,14 @@ using Antlr4.Runtime.Tree;
 
 namespace ECB2_Lib.Parser.UT
 {
-    public class DiskExtendedColorBasicIOFunctionTests : DiskColorBasicIOFunctionsTests
+    public class DiskExtendedColorBasicIOFunctionTests : BaseTest
     {
         /**
          * Tokens: CVN MKN$ EOF
          */
 
         [SetUp]
-        public new void Setup()
+        public void Setup()
         {
         }
 
@@ -21,7 +21,7 @@ namespace ECB2_Lib.Parser.UT
 
         /*************************************Internal****************************************/
 
-        protected override int RunCLoad(string txt)
+        protected virtual int RunCLoad(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

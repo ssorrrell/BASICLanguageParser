@@ -5,33 +5,23 @@ using Antlr4.Runtime.Tree;
 
 namespace ECB2_Lib.Parser.UT
 {
-    public class ColorBasicGraphicsTests : BaseTest
+    public class DiskSuperExtendedColorBasicDiskTests : DiskExtendedColorBasicDiskTests
     {
         /**
-         * Tokens: POINT CLS SET RESET
+         * Tokens: DIR DRIVE FIELD FILES KILL LOAD LSET MERGE RENAME RSET SAVE WRITE VERIFY UNLOAD DSKINI BACKUP COPY TO DSKI$ DSKO$ DOS FREE LOC LOF AS PRINT
          */
 
         [SetUp]
-        public void Setup()
+        public new void Setup()
         {
         }
 
         /*************************************Tests****************************************/
 
-        [Test]
-        protected void Cls()
-        {
-            const string functionName = "CLS";
-            string test = "CLS 2";
-            int result = RunCls(test);
-            Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
-        }
-
-
 
         /*************************************Internal****************************************/
 
-        protected virtual int RunCls(string txt)
+        protected override int RunCLoad(string txt)
         {
             SetupLexerParser(txt);
             jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();

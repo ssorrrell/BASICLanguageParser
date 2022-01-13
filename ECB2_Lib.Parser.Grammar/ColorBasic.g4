@@ -36,3 +36,142 @@ Color Basic is a tiny basic created by Microsoft.  Version 1.2 is copyright 1983
 It is very similar to the two prior versions.  This comes primarily from the
 Color Basic Unravelled series and the Color Computer Basic Manual and Quick Reference.
 */
+
+/******************************Parser***************************************/
+
+// expressions and such
+number
+   :  ('+' | '-')? (NUMBER)
+   ;
+
+func_
+   : number
+   | (LPAREN expression RPAREN)
+   ;
+
+signExpression
+   : NOT? (ADD | SUB)? func_
+   ;
+
+exponentExpression
+   : signExpression (EXP signExpression)*
+   ;
+
+multiplyingExpression
+   : exponentExpression ((MUL | DIV) exponentExpression)*
+   ;
+
+addingExpression
+   : multiplyingExpression ((ADD | SUB) multiplyingExpression)*
+   ;
+
+relationalExpression
+   : addingExpression ((relop) addingExpression)?
+   ;
+
+expression
+   : func_
+   | (relationalExpression ((AND | OR) relationalExpression)*)
+   ;
+
+relop
+   : gte
+   | lte
+   | neq
+   | EQ
+   | GT
+   | LT
+   ;
+
+neq
+   : LT GT
+   ;
+
+gte
+    : GT EQ
+    ;
+
+lte
+    : LT EQ
+    ;
+
+/******************************Lexer***************************************/
+DOLLAR
+   : '$'
+   ;
+
+PERCENT
+   : '%'
+   ;
+
+ADD
+   : '+'
+   ;
+
+SUB
+   : '-'
+   ;
+
+MUL
+   : '*'
+   ;
+
+DIV
+   : '/'
+   ;
+
+GT
+   : '>'
+   ;
+
+LT
+   : '<'
+   ;
+
+EQ
+   : '='
+   ;
+
+COMMA
+   : ','
+   ;
+
+SEMICOLON
+   : ';'
+   ;
+
+COLON
+   : ':'
+   ;
+
+EXP
+   : '^'
+   ;
+
+OR
+   : 'OR'
+   ;
+
+AND
+   : 'AND'
+   ;
+
+NOT
+   : 'NOT'
+   ;
+
+LPAREN
+    : '('
+    ;
+
+RPAREN
+    : ')'
+    ;
+    
+NUMBER
+   : ('0' .. '9')* '.' ('0' .. '9') + (('e' | 'E') ('0' .. '9') +)*
+   ;
+
+WS
+   : [ \t] + -> channel (HIDDEN)
+   ;

@@ -37,4 +37,7 @@ Color Basic is a tiny basic created by Microsoft and Microware.
 Version 2.1 is copyright 1982, 1986. Which extends Super Extended Color Basic
 with Disk Commands and functions.  This comes primarily from the Color Basic
 Unravelled series and the Color Computer Basic Manuals and Quick Reference.
+
+This grammar is basically the combination of Disk Extended Color Basic and
+Super Extended Color Basic
 */

@@ -55,15 +55,15 @@ linenumber
 statement
    : //(CLS | LOAD | SAVE | TRACE | NOTRACE | FLASH | INVERSE | GR | NORMAL | SHLOAD | CLEAR | RUN | STOP | TEXT | HOME | HGR | HGR2)
 //    | endstmt
-//    | returnstmt
-//    | restorestmt
+   | returnstmt
+   | restorestmt
 //    | amptstmt
 //    | popstmt
 //    | liststmt
 //    | storestmt
 //    | getstmt
 //    | recallstmt
-//    | nextstmt
+   | nextstmt
 //    | instmt
 //    | prstmt
 //    | onerrstmt
@@ -81,25 +81,30 @@ statement
 //    | plotstmt
 //    | ongotostmt
 //    | ongosubstmt
-//    | ifstmt
-//    | forstmt1
+    | ifstmt1
+    | ifstmt2
+    | forstmt
 //    | forstmt2
 //    | inputstmt
 //    | tabstmt
     | dimstmt
-//    | gotostmt
-//    | gosubstmt
+    | gotostmt
+    | gosubstmt
 //    | callstmt
-//    | readstmt
+    | readstmt
 //    | hplotstmt
 //    | vplotstmt
 //    | vtabstmnt
 //    | htabstmnt
 //    | waitstmt
-//    | datastmt
+   | datastmt
 //    | xdrawstmt
 //    | drawstmt
 //    | defstmt
+    | newstmt
+    | stopstmt
+    | endstmt
+    | runstmt
     | letstmt
 //    | includestmt
    ;
@@ -123,7 +128,6 @@ func_
 //    | spcfunc
 //    | frefunc
 //    | posfunc
-//    | usrfunc
    | leftfunc
    | valfunc
    | rightfunc
@@ -140,6 +144,9 @@ func_
    | inkeyfunc
    | joystkfunc
    | eoffunc
+   | pointfunc
+   | memfunc
+   | usrfunc
    | (LPAREN expression RPAREN)
    ;
 
@@ -149,7 +156,7 @@ number
    ;
 
 signExpression
-   : NOT+ (ADD | SUB)? func_
+   : NOT+ (ADD | SUBTRACT)? func_
    ;
 
 exponentExpression
@@ -161,7 +168,7 @@ multiplyingExpression
    ;
 
 addingExpression
-   : multiplyingExpression ((ADD | SUB) multiplyingExpression)*
+   : multiplyingExpression ((ADD | SUBTRACT) multiplyingExpression)*
    ;
 
 relationalExpression
@@ -223,15 +230,12 @@ exprlist
    : expression (COMMA expression)*
    ;
 
-letstmt
-   : LET? variableassignment
+datum
+   : number
+   | DATUM
    ;
 
-dimstmt
-   : DIM varlist
-   ;
-
-//*******************functions**********************//
+/*******************functions**********************/
 absfunc
    : ABS LPAREN expression RPAREN
    ;
@@ -300,6 +304,93 @@ peekfunc
    : PEEK LPAREN expression RPAREN
    ;
 
+pointfunc
+   : POINT LPAREN expression COMMA expression RPAREN
+   ;
+
+memfunc
+   : MEM
+   ; 
+
+usrfunc
+   : USR SINGLE_DIGIT LPAREN expression RPAREN
+   ;
+
+/*******************statements**********************/
+
+letstmt
+   : LET? variableassignment
+   ;
+
+dimstmt
+   : DIM varlist
+   ;
+
+// for stmt puts the for, the statment, and the next on 3 lines.  It needs "nextstmt"
+forstmt
+   : FOR vardecl EQ expression TO expression (STEP expression)?
+   ;
+
+nextstmt
+   : NEXT (vardecl (',' vardecl)*)?
+   ;
+
+ifstmt1
+   : IF expression THEN? ((statement)+ | linenumber)
+   ;
+
+ifstmt2
+   : IF expression THEN ((statement)+ | linenumber) ELSE ((statement)+ | linenumber)
+   ;
+
+gotostmt
+   : GO TO linenumber
+   ;
+
+gosubstmt
+   : GO SUB linenumber
+   ;
+
+ongotostmt
+   : ON expression GO TO linenumber (COMMA linenumber)*
+   ;
+
+ongosubstmt
+   : ON expression GO SUB linenumber (COMMA linenumber)*
+   ;
+
+returnstmt
+   : RETURN
+   ;
+
+datastmt
+   : DATA datum (COMMA datum?)*
+   ;
+
+readstmt
+   : READ varlist
+   ;
+
+restorestmt
+   : RESTORE
+   ;
+
+newstmt
+   : NEW
+   ;
+
+endstmt
+   : END
+   ;
+
+stopstmt
+   : STOP
+   ;
+
+runstmt
+   : RUN
+   ;
+
 /******************************Lexer***************************************/
 LET //assign variables
    : 'LET'
@@ -309,6 +400,7 @@ DIM //dim variables
    : 'DIM'
    ;
 
+/*******************functions**********************/
 ABS //absolute value
    : 'ABS'
    ;
@@ -377,6 +469,94 @@ PEEK
    : 'PEEK'
    ;
 
+POINT //returns info about the specified point on the screen
+   : 'POINT'
+   ;
+
+MEM //returns amount of free memory
+   : 'MEM'
+   ;
+
+USR //call machine language subroutine 0-9
+   : 'USR'
+   ;
+
+/*******************statements**********************/
+
+FOR
+   : 'FOR'
+   ;
+
+TO
+   : 'TO'
+   ;
+
+STEP
+   : 'STEP'
+   ;
+
+NEXT
+   : 'NEXT'
+   ;
+
+IF
+   : 'IF'
+   ;
+
+THEN
+   : 'THEN'
+   ;
+
+ELSE
+   : 'ELSE'
+   ;
+
+GO
+   : 'GO'
+   ;
+
+SUB
+   : 'SUB'
+   ;
+
+ON
+   : 'ON'
+   ;
+
+RETURN
+   : 'RETURN'
+   ;
+
+DATA
+   : 'DATA'
+   ;
+
+RESTORE
+   : 'RESTORE'
+   ;
+
+READ
+   : 'READ'
+   ;
+
+NEW
+   : 'NEW'
+   ;
+
+END
+   : 'END'
+   ;
+
+STOP
+   : 'STOP'
+   ;
+
+RUN
+   : 'RUN'
+   ;
+
+/*******************small tokens**********************/
+
 DOLLAR
    : '$'
    ;
@@ -389,7 +569,7 @@ ADD
    : '+'
    ;
 
-SUB
+SUBTRACT
    : '-'
    ;
 
@@ -449,8 +629,16 @@ RPAREN
     : ')'
     ;
 
+DATUM //i think this is actually much more inclusive - todo redo rule
+   : [a-zA-Z0-9]+
+   ;
+
 LETTERS
    : [A-Z]+
+   ;
+
+SINGLE_DIGIT
+   : [0-9]
    ;
 
 DIGITS

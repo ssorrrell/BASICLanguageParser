@@ -51,6 +51,7 @@ linenumber
    : DIGITS
    ;
 
+/****************************master statement table*************************************/
 statement
    : //(CLS | LOAD | SAVE | TRACE | NOTRACE | FLASH | INVERSE | GR | NORMAL | SHLOAD | CLEAR | RUN | STOP | TEXT | HOME | HGR | HGR2)
 //    | endstmt
@@ -103,14 +104,48 @@ statement
 //    | includestmt
    ;
 
+/****************************master function table*************************************/
+func_
+   : STRINGLITERAL
+   | number
+//    | tabfunc
+   | vardecl
+   | chrfunc
+//    | sqrfunc
+   | lenfunc
+   | strfunc
+//    | ascfunc
+//    | scrnfunc
+   | midfunc
+//    | pdlfunc
+   | peekfunc
+   | intfunc
+//    | spcfunc
+//    | frefunc
+//    | posfunc
+//    | usrfunc
+   | leftfunc
+   | valfunc
+   | rightfunc
+//    | fnfunc
+   | sinfunc
+//    | cosfunc
+//    | tanfunc
+//    | atnfunc
+   | rndfunc
+   | sgnfunc
+//    | expfunc
+//    | logfunc
+   | absfunc
+   | inkeyfunc
+   | joystkfunc
+   | eoffunc
+   | (LPAREN expression RPAREN)
+   ;
+
 // expressions and such
 number
    :  ('+' | '-')? (NUMBER)
-   ;
-
-func_
-   : number
-   | (LPAREN expression RPAREN)
    ;
 
 signExpression
@@ -196,13 +231,150 @@ dimstmt
    : DIM varlist
    ;
 
+//*******************functions**********************//
+absfunc
+   : ABS LPAREN expression RPAREN
+   ;
+
+ascfunc
+   : ASC LPAREN expression RPAREN
+   ;
+
+sgnfunc
+   : SGN LPAREN expression RPAREN
+   ;
+
+intfunc
+   : INT LPAREN expression RPAREN
+   ;
+
+sinfunc
+   : SIN LPAREN expression RPAREN
+   ;
+
+rndfunc
+   : RND LPAREN expression RPAREN
+   ;
+
+lenfunc
+   : LEN LPAREN expression RPAREN
+   ;
+
+valfunc
+   : VAL LPAREN expression RPAREN
+   ;
+
+chrfunc
+   : CHR LPAREN expression RPAREN
+   ;
+
+midfunc
+   : MID LPAREN expression COMMA expression COMMA expression RPAREN
+   ;
+
+leftfunc
+   : LEFT LPAREN expression COMMA expression RPAREN
+   ;
+
+rightfunc
+   : RIGHT LPAREN expression COMMA expression RPAREN
+   ; 
+
+strfunc
+   : STR LPAREN expression RPAREN
+   ;
+
+inkeyfunc
+   : INKEY
+   ;
+
+joystkfunc
+   : JOYSTK LPAREN expression RPAREN
+   ;
+
+eoffunc
+   : EOFTOKEN LPAREN expression RPAREN
+   ;
+
+peekfunc
+   : PEEK LPAREN expression RPAREN
+   ;
+
 /******************************Lexer***************************************/
-LET
+LET //assign variables
    : 'LET'
    ;
 
-DIM
+DIM //dim variables
    : 'DIM'
+   ;
+
+ABS //absolute value
+   : 'ABS'
+   ;
+
+ASC //get code of first character in string
+   : 'ASC'
+   ;
+
+SGN //Convert signed number into floating point number.
+   : 'SGN'
+   ;
+
+INT //Convert float to an integer
+   : 'INT'
+   ;
+
+SIN //sine wave function
+   : 'SIN'
+   ;
+
+RND //random number function
+   : 'RND'
+   ;
+
+LEN //string length function
+   : 'LEN'
+   ;
+
+VAL //convert a string to a number
+   : 'VAL'
+   ;
+
+CHR //Convert string to integer
+   : 'CHR$'
+   ;
+
+MID //return mid portion of string
+   : 'MID$'
+   ;
+
+LEFT //return left portion of string
+   : 'LEFT$'
+   ;
+
+RIGHT //return right portion of string
+   : 'RIGHT$'
+   ;
+
+STR //convert n to string
+   : 'STR$'
+   ;
+
+INKEY //get key from keyboard
+   : 'INKEY$'
+   ;
+
+JOYSTK //get the joystick axis
+   : 'JOYSTK'
+   ;
+
+EOFTOKEN //return false if there is more data on the device
+   : 'EOF'
+   ;
+
+PEEK
+   : 'PEEK'
    ;
 
 DOLLAR

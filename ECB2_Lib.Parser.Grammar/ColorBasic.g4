@@ -53,93 +53,67 @@ linenumber
 
 /****************************master statement table*************************************/
 statement
-   : //(CLS | LOAD | SAVE | TRACE | NOTRACE | FLASH | INVERSE | GR | NORMAL | SHLOAD | CLEAR | RUN | STOP | TEXT | HOME | HGR | HGR2)
-//    | endstmt
-   | returnstmt
-   | restorestmt
-//    | amptstmt
-//    | popstmt
-//    | liststmt
-//    | storestmt
-//    | getstmt
-//    | recallstmt
-   | nextstmt
-//    | instmt
-//    | prstmt
-//    | onerrstmt
-//    | hlinstmt
-//    | vlinstmt
-//    | colorstmt
-//    | speedstmt
-//    | scalestmt
-//    | rotstmt
-//    | hcolorstmt
-//    | himemstmt
-//    | lomemstmt
-//    | printstmt1
-//    | pokestmt
-//    | plotstmt
-//    | ongotostmt
-//    | ongosubstmt
+   :  returnstmt
+    | restorestmt
+    | printstmt
+    | nextstmt
+    | pokestmt
     | ifstmt1
     | ifstmt2
     | forstmt
-//    | forstmt2
-//    | inputstmt
-//    | tabstmt
+    | inputstmt1
+    | inputstmt2
     | dimstmt
     | gotostmt
     | gosubstmt
-//    | callstmt
     | readstmt
-//    | hplotstmt
-//    | vplotstmt
-//    | vtabstmnt
-//    | htabstmnt
-//    | waitstmt
-   | datastmt
-//    | xdrawstmt
-//    | drawstmt
-//    | defstmt
+    | datastmt
+    | printstmt
+    | printtabstmt
+    | printhashstmt
+    | printatstmt
     | newstmt
     | stopstmt
     | endstmt
     | runstmt
+    | clearstmt
+    | contstmt
+    | liststmt
+    | lliststmt
     | letstmt
-//    | includestmt
+    | setstmt
+    | resetstmt
+    | clsstmt
+    | execstmt
+    | motorstmt
+    | audiostmt
+    | soundstmt
+    | cloadstmt
+    | cloadmstmt
+    | csavestmt
+    | csavemstmt
+    | skipfstmt
+    | openstmt
+    | closestmt
    ;
 
 /****************************master function table*************************************/
 func_
    : STRINGLITERAL
    | number
-//    | tabfunc
    | vardecl
    | chrfunc
-//    | sqrfunc
    | lenfunc
    | strfunc
-//    | ascfunc
-//    | scrnfunc
    | midfunc
-//    | pdlfunc
    | peekfunc
    | intfunc
-//    | spcfunc
-//    | frefunc
-//    | posfunc
    | leftfunc
    | valfunc
    | rightfunc
-//    | fnfunc
    | sinfunc
-//    | cosfunc
-//    | tanfunc
-//    | atnfunc
    | rndfunc
    | sgnfunc
-//    | expfunc
-//    | logfunc
    | absfunc
    | inkeyfunc
    | joystkfunc
@@ -160,7 +134,7 @@ signExpression
    ;
 
 exponentExpression
-   : signExpression (EXP signExpression)*
+   : signExpression (EXP <assoc=right> signExpression)*
    ;
 
 multiplyingExpression
@@ -332,7 +306,7 @@ forstmt
    ;
 
 nextstmt
-   : NEXT (vardecl (',' vardecl)*)?
+   : NEXT (vardecl (COMMA vardecl)*)?
    ;
 
 ifstmt1
@@ -390,6 +364,106 @@ stopstmt
 runstmt
    : RUN
    ;
+
+clearstmt
+   : CLEAR
+   ;
+
+contstmt
+   : CONT
+   ;
+
+liststmt
+   : LIST
+   ;
+
+lliststmt
+   : LLIST
+   ;
+
+inputstmt1
+    : INPUT (vardecl (COMMA vardecl)*)
+    ;
+
+inputstmt2
+    : INPUT HASH number COMMA (vardecl (COMMA vardecl)*)
+    ;
+
+printstmt
+   : PRINT expression
+   ;
+
+printtabstmt
+   : PRINT TAB LPAREN expression RPAREN SEMICOLON expression
+   ;
+
+printhashstmt
+   : PRINT HASH expression COMMA expression 
+   ;
+
+printatstmt
+   : PRINT AT expression COMMA expression 
+   ;
+
+setstmt
+   : SET LPAREN expression COMMA expression (COMMA expression)+ RPAREN
+   ;
+   
+resetstmt
+   : RESET LPAREN expression COMMA expression RPAREN
+   ;
+
+clsstmt
+   : CLS expression
+   ;
+
+execstmt
+   : EXEC expression
+   ;
+
+pokestmt
+   : POKE expression COMMA expression
+   ;
+
+motorstmt
+   : MOTOR (ON | OFF)
+   ;
+
+audiostmt
+   : AUDIO (ON | OFF)
+   ;
+
+soundstmt
+   : SOUND expression COMMA expression
+   ;   
+
+cloadstmt
+   : CLOAD expression
+   ; 
+
+cloadmstmt
+   : CLOAD expression COMMA expression
+   ; 
+
+csavestmt
+   : CSAVE expression COMMA expression
+   ;
+
+csavemstmt
+   : CSAVEM expression COMMA expression COMMA expression COMMA expression
+   ; 
+
+skipfstmt
+   : SKIPF expression
+   ; 
+
+openstmt
+   : OPEN ('"I"' | '"O"' ) COMMA HASH expression COMMA expression
+   ; 
+
+closestmt
+   : CLOSE HASH expression
+   ; 
 
 /******************************Lexer***************************************/
 LET //assign variables
@@ -465,7 +539,7 @@ EOFTOKEN //return false if there is more data on the device
    : 'EOF'
    ;
 
-PEEK
+PEEK //get the contents at the memory address
    : 'PEEK'
    ;
 
@@ -483,82 +557,178 @@ USR //call machine language subroutine 0-9
 
 /*******************statements**********************/
 
-FOR
+FOR //for loop
    : 'FOR'
    ;
 
-TO
+TO //for to loop
    : 'TO'
    ;
 
-STEP
+STEP //for to step loop
    : 'STEP'
    ;
 
-NEXT
+NEXT //next closing statement to loop
    : 'NEXT'
    ;
 
-IF
+IF //if 
    : 'IF'
    ;
 
-THEN
+THEN //if then
    : 'THEN'
    ;
 
-ELSE
+ELSE //if then else
    : 'ELSE'
    ;
 
-GO
+GO //goto
    : 'GO'
    ;
 
-SUB
+SUB //gosub
    : 'SUB'
    ;
 
-ON
+ON //on gosub
    : 'ON'
    ;
 
-RETURN
+OFF //off token
+    : 'OFF'
+    ; 
+
+RETURN //return from a gosub
    : 'RETURN'
    ;
 
-DATA
+DATA //define data elements
    : 'DATA'
    ;
 
-RESTORE
+RESTORE //restore the data pointer back
    : 'RESTORE'
    ;
 
-READ
+READ //read from the data statement
    : 'READ'
    ;
 
-NEW
+NEW //erase basic program, clear variables space,.. 
    : 'NEW'
    ;
 
-END
+END //end program
    : 'END'
    ;
 
-STOP
+STOP //stop program execution
    : 'STOP'
    ;
 
-RUN
+RUN //run program
    : 'RUN'
    ;
+
+CONT //continue program execution
+   : 'CONT'
+   ;
+
+LIST //list program to the screen
+   : 'LIST'
+   ;
+
+LLIST //list program to printer
+   : 'LLIST'
+   ;
+
+CLEAR //erase all variables, initialize pointers,..
+   : 'CLEAR'
+   ;
+
+INPUT //input
+    : 'INPUT'
+    ;
+
+PRINT //print@ or print# or print or print tab
+    : 'PRINT'
+    ;
+
+TAB //print tab(22);"hello" move the cursor to the tab position
+    : 'TAB'
+    ;
+
+SET //set(x,y,c) c is optional set a point on the screen
+    : 'SET'
+    ;
+
+RESET //reset(x,y) reset a point on the screen
+    : 'RESET'
+    ;    
+
+CLS //cls n set background color of screen
+    : 'CLS'
+    ;   
+
+EXEC //transfer control to a machine language address
+    : 'EXEC'
+    ; 
+
+POKE //put a number in an address
+    : 'POKE'
+    ; 
+
+MOTOR //turn the cassette on or off
+    : 'MOTOR'
+    ;   
+
+AUDIO //connect cassette output to the screen
+    : 'AUDIO'
+    ; 
+
+SOUND //play specified tone and duration
+    : 'SOUND'
+    ; 
+
+CLOAD //load program from cassette
+    : 'CLOAD'
+    ;   
+
+CSAVE //save program to cassette
+    : 'CSAVE'
+    ; 
+
+CLOADM //load machine language program from cassette
+    : 'CLOADM'
+    ;   
+
+CSAVEM //save machine language program to the cassette
+    : 'CSAVEM'
+    ; 
+
+SKIPF //skip to the next program on the cassette
+    : 'SKIPF'
+    ; 
+
+OPEN //open file for data transmission
+    : 'OPEN'
+    ; 
+
+CLOSE //close acces to the specified device
+    : 'CLOSE'
+    ; 
 
 /*******************small tokens**********************/
 
 DOLLAR
    : '$'
+   ;
+
+AT
+   : '@'
    ;
 
 PERCENT
@@ -609,6 +779,10 @@ EXP
    : '^'
    ;
 
+HASH
+   : '#'
+   ;
+
 OR
    : 'OR'
    ;
@@ -629,22 +803,27 @@ RPAREN
     : ')'
     ;
 
+fragment
 DATUM //i think this is actually much more inclusive - todo redo rule
    : [a-zA-Z0-9]+
    ;
 
+fragment
 LETTERS
    : [A-Z]+
    ;
 
+fragment
 SINGLE_DIGIT
    : [0-9]
    ;
 
+fragment
 DIGITS
    : [0-9]+
    ;
 
+fragment
 NUMBER
    : [0-9]* '.'? [0-9]* (('E')('+' | '-')? [0-9]+)*
    ;

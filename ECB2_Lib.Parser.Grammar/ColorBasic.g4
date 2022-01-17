@@ -44,7 +44,7 @@ prog
 
 // a line starts with an integer
 line
-   : (linenumber (statement (COLON statement)*) )
+   : (linenumber ((statement | COMMENT) (COLON (statement | COMMENT))*) )
    ;
 
 linenumber
@@ -134,7 +134,7 @@ signExpression
    ;
 
 exponentExpression
-   : signExpression (EXP <assoc=right> signExpression)*
+   : signExpression ( <assoc=right> EXP signExpression)*
    ;
 
 multiplyingExpression
@@ -386,7 +386,7 @@ inputstmt1
     ;
 
 inputstmt2
-    : INPUT HASH number COMMA (vardecl (COMMA vardecl)*)
+    : INPUT HASH DEVICE_CASSETTE COMMA (vardecl (COMMA vardecl)*)
     ;
 
 printstmt
@@ -398,7 +398,7 @@ printtabstmt
    ;
 
 printhashstmt
-   : PRINT HASH expression COMMA expression 
+   : PRINT HASH (DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expression 
    ;
 
 printatstmt
@@ -458,11 +458,11 @@ skipfstmt
    ; 
 
 openstmt
-   : OPEN ('"I"' | '"O"' ) COMMA HASH expression COMMA expression
+   : OPEN ('"I"' | '"O"' ) COMMA HASH (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expression
    ; 
 
 closestmt
-   : CLOSE HASH expression
+   : CLOSE HASH (DEVICE_CASSETTE)?
    ; 
 
 /******************************Lexer***************************************/
@@ -721,6 +721,14 @@ CLOSE //close acces to the specified device
     : 'CLOSE'
     ; 
 
+COMMENT //match comment stuff '\n'
+    : REM .*? '\r'? '\n' -> channel(2)
+    ;
+
+REM //comment
+    : '\'' | 'REM'
+    ;
+
 /*******************small tokens**********************/
 
 DOLLAR
@@ -804,6 +812,26 @@ RPAREN
     ;
 
 fragment
+DEVICE_KEYBOARD
+    : '0'
+    ;
+
+fragment
+DEVICE_CASSETTE
+    : '-1'
+    ;
+
+fragment
+DEVICE_PRINTER
+    : '-2'
+    ;
+
+fragment
+DEVICE_RS232
+    : '-3'
+    ;
+
+fragment
 DATUM //i think this is actually much more inclusive - todo redo rule
    : [a-zA-Z0-9]+
    ;
@@ -833,5 +861,5 @@ STRINGLITERAL
    ;
 
 WS
-   : [ \t] + -> channel (HIDDEN)
+   : [ \t]+ -> channel (HIDDEN)
    ;

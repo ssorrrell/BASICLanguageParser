@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECB2_Lib.Parser.UT", "ECB2_Lib.Parser.UT\ECB2_Lib.Parser.UT.csproj", "{68C4CBD4-1687-481C-A1DD-F313300F7ABB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECB2_Lib.Parser.Grammar", "ECB2_Lib.Parser.Grammar\ECB2_Lib.Parser.Grammar.csproj", "{A6372405-65B9-4CC3-9972-3C066B8F3BF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{7D15FF2D-F189-40D1-99EB-E87A99E58E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D15FF2D-F189-40D1-99EB-E87A99E58E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D15FF2D-F189-40D1-99EB-E87A99E58E52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68C4CBD4-1687-481C-A1DD-F313300F7ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68C4CBD4-1687-481C-A1DD-F313300F7ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68C4CBD4-1687-481C-A1DD-F313300F7ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68C4CBD4-1687-481C-A1DD-F313300F7ABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6372405-65B9-4CC3-9972-3C066B8F3BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6372405-65B9-4CC3-9972-3C066B8F3BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6372405-65B9-4CC3-9972-3C066B8F3BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6372405-65B9-4CC3-9972-3C066B8F3BF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

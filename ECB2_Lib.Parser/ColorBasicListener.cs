@@ -29,7 +29,6 @@ using IToken = Antlr4.Runtime.IToken;
 /// <see cref="ColorBasicParser"/>.
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
-[System.CLSCompliant(false)]
 public interface IColorBasicListener : IParseTreeListener {
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.prog"/>.

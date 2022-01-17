@@ -34,7 +34,6 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.Diagnostics.DebuggerNonUserCode]
-[System.CLSCompliant(false)]
 public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.prog"/>.

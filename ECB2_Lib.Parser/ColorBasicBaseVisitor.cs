@@ -33,7 +33,6 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.Diagnostics.DebuggerNonUserCode]
-[System.CLSCompliant(false)]
 public partial class ColorBasicBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IColorBasicVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.prog"/>.

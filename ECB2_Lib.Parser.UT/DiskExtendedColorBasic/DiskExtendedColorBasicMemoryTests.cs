@@ -20,13 +20,13 @@ namespace ECB2_Lib.Parser.UT
 
         /*************************************Internal****************************************/
 
-        protected override int RunABS(string txt)
-        {
-            SetupLexerParser(txt);
-            jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
-            int result = VisitNode(absDefinitionContext);
-            return result;
-        }
+    //    protected override int RunABS(string txt)
+    //    {
+    //        SetupLexerParser(txt);
+    //        jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
+    //        int result = VisitNode(absDefinitionContext);
+    //        return result;
+    //    }
     }
 
 

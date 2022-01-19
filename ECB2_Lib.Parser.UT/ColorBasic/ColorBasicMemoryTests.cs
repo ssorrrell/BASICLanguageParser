@@ -34,7 +34,7 @@ namespace ECB2_Lib.Parser.UT
         protected virtual int RunABS(string txt)
         {
             SetupLexerParser(txt);
-            jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
+            ColorBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
             int result = VisitNode(absDefinitionContext);
             return result;
         }

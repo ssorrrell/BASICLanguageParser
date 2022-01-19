@@ -9,24 +9,24 @@ namespace ECB2_Lib.Parser.UT
     {
         public const string ERROR_TEMPLATE = "Test {0} {1}"; //function Name being tested, test fragment
 
-        public jvmBasicLexer lexer;
+        public ColorBasicLexer lexer;
         public CommonTokenStream commonTokenStream;
-        public jvmBasicParser parser;
-        public jvmBasicBaseVisitor<object> visitor;
+        public ColorBasicParser parser;
+        public ColorBasicBaseVisitor<object> visitor;
 
         protected void SetupLexerParser(string txt)
         {
             AntlrInputStream inputStream = new AntlrInputStream(txt);
-            lexer = new jvmBasicLexer(inputStream);
+            lexer = new ColorBasicLexer(inputStream);
             lexer.AddErrorListener(new LexErrorListener());
             commonTokenStream = new CommonTokenStream(lexer);
-            parser = new jvmBasicParser(commonTokenStream);
+            parser = new ColorBasicParser(commonTokenStream);
             parser.AddErrorListener(new ErrorListener());
         }
 
         protected int VisitNode(RuleContext context)
         {
-            visitor = new jvmBasicBaseVisitor<object>();
+            visitor = new ColorBasicBaseVisitor<object>();
             visitor.Visit(context);
             parser.RemoveErrorListeners();
             return parser.NumberOfSyntaxErrors;

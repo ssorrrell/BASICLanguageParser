@@ -34,8 +34,8 @@ namespace ECB2_Lib.Parser.UT
         protected virtual int RunSound(string txt)
         {
             SetupLexerParser(txt);
-            jvmBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
-            int result = VisitNode(absDefinitionContext);
+            ColorBasicParser.SoundstmtContext soundStmtContext = parser.soundstmt();
+            int result = VisitNode(soundStmtContext);
             return result;
         }
     }

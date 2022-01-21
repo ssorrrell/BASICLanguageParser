@@ -13,3 +13,5 @@ Links
 <https://blog.lextudio.com/how-to-write-your-language-server-in-c-d9302a44f694>
 
 <https://github.com/CXuesong/LanguageServer.NET>
+
+<https://github.com/donaldpipowitch/how-to-create-a-language-server-and-vscode-extension>

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ECB2_Lib.Parser\ECB2_Lib.Parser.csproj" />
+    <ProjectReference Include="..\BASICLanguageParser\BASICLanguageParser.csproj" />
   </ItemGroup>
 
 </Project>

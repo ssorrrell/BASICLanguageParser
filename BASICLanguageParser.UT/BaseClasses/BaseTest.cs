@@ -13,15 +13,20 @@ namespace BASICLanguageParser.UT
         public CommonTokenStream commonTokenStream;
         public ColorBasicParser parser;
         public ColorBasicBaseVisitor<object> visitor;
+        public LexErrorListener lexerErrorListener;
+        public ErrorListener errorListener;
 
         protected void SetupLexerParser(string txt)
         {
             AntlrInputStream inputStream = new AntlrInputStream(txt);
             lexer = new ColorBasicLexer(inputStream);
-            lexer.AddErrorListener(new LexErrorListener());
+            lexerErrorListener = new LexErrorListener();
+            lexer.AddErrorListener(lexerErrorListener);
             commonTokenStream = new CommonTokenStream(lexer);
             parser = new ColorBasicParser(commonTokenStream);
-            parser.AddErrorListener(new ErrorListener());
+            errorListener = new ErrorListener();
+            parser.AddErrorListener(errorListener);
+            
         }
 
         protected int VisitNode(RuleContext context)

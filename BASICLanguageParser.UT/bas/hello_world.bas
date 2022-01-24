@@ -1,2 +1,2 @@
 ﻿10 REM hello world
-20 PRINT "hello from jvmBASIC"
+20 PRINT "hello from BASIC"

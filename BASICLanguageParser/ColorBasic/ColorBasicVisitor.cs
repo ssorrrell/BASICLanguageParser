@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Stephen\source\repos\ECB2_Lib\BASICLanguageParser.Grammar\ColorBasic.g4 by ANTLR 4.9.3
+// Generated from C:\Users\Stephen\source\repos\BASICLanguageParser\BASICLanguageParser.Grammar\ColorBasic.g4 by ANTLR 4.9.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -30,6 +30,7 @@ using IToken = Antlr4.Runtime.IToken;
 /// </summary>
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
+[System.CLSCompliant(false)]
 public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.prog"/>.
@@ -49,6 +50,12 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLinenumber([NotNull] ColorBasicParser.LinenumberContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSubstatement([NotNull] ColorBasicParser.SubstatementContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.statement"/>.
 	/// </summary>

@@ -39,16 +39,20 @@ Color Basic Unravelled series and the Color Computer Basic Manual and Quick Refe
 
 /******************************Parser***************************************/
 prog
-   : line + EOF
+   : line+
    ;
 
 // a line starts with an integer
 line
-   : (linenumber ((statement | COMMENT) (COLON (statement | COMMENT))*) )
+   : (linenumber substatement (COLON substatement)*)
    ;
 
 linenumber
-   : DIGITS
+   : LINENUMBER+
+   ;
+
+substatement
+   : (statement | COMMENT)
    ;
 
 /****************************master statement table*************************************/
@@ -181,7 +185,7 @@ var_
    ;
 
 varname
-   : LETTERS (LETTERS | DIGITS)*
+   : LETTERS (LETTERS | LINENUMBER)*
    ;
 
 varsuffix
@@ -811,53 +815,48 @@ RPAREN
     : ')'
     ;
 
-fragment
 DEVICE_KEYBOARD
     : '0'
     ;
 
-fragment
 DEVICE_CASSETTE
     : '-1'
     ;
 
-fragment
 DEVICE_PRINTER
     : '-2'
     ;
 
-fragment
 DEVICE_RS232
     : '-3'
     ;
 
-fragment
 DATUM //i think this is actually much more inclusive - todo redo rule
    : [a-zA-Z0-9]+
    ;
 
-fragment
 LETTERS
    : [A-Z]+
    ;
 
-fragment
 SINGLE_DIGIT
    : [0-9]
    ;
 
-fragment
-DIGITS
-   : [0-9]+
+// DIGITS
+//    : [0-9]+
+//    ;
+
+LINENUMBER //1-5 DIGITS
+   : '0'..'9'
    ;
 
-fragment
 NUMBER
-   : [0-9]* '.'? [0-9]* (('E')('+' | '-')? [0-9]+)*
+   : ([0-9]* '.'? [0-9]* (('E')('+' | '-')? [0-9]+) | [0-9]* '.' [0-9]* )
    ;
 
 STRINGLITERAL
-   : '"' ~ ["\r\n]* '"'
+   : '"' ~["\r\n]* '"'
    ;
 
 WS

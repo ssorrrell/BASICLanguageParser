@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Stephen\source\repos\ECB2_Lib\BASICLanguageParser.Grammar\ColorBasic.g4 by ANTLR 4.9.3
+// Generated from C:\Users\Stephen\source\repos\BASICLanguageParser\BASICLanguageParser.Grammar\ColorBasic.g4 by ANTLR 4.9.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -33,6 +33,7 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.Diagnostics.DebuggerNonUserCode]
+[System.CLSCompliant(false)]
 public partial class ColorBasicBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IColorBasicVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.prog"/>.
@@ -64,6 +65,16 @@ public partial class ColorBasicBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitLinenumber([NotNull] ColorBasicParser.LinenumberContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSubstatement([NotNull] ColorBasicParser.SubstatementContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.statement"/>.
 	/// <para>

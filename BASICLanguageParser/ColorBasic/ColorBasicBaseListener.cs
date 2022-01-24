@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Stephen\source\repos\ECB2_Lib\BASICLanguageParser.Grammar\ColorBasic.g4 by ANTLR 4.9.3
+// Generated from C:\Users\Stephen\source\repos\BASICLanguageParser\BASICLanguageParser.Grammar\ColorBasic.g4 by ANTLR 4.9.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -34,6 +34,7 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.Diagnostics.DebuggerNonUserCode]
+[System.CLSCompliant(false)]
 public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.prog"/>.
@@ -71,6 +72,18 @@ public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLinenumber([NotNull] ColorBasicParser.LinenumberContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSubstatement([NotNull] ColorBasicParser.SubstatementContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSubstatement([NotNull] ColorBasicParser.SubstatementContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.statement"/>.
 	/// <para>The default implementation does nothing.</para>

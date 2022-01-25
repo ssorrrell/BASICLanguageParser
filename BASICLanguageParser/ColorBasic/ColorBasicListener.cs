@@ -62,6 +62,16 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLinenumber([NotNull] ColorBasicParser.LinenumberContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNumber([NotNull] ColorBasicParser.NumberContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNumber([NotNull] ColorBasicParser.NumberContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -92,15 +102,15 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFunc_([NotNull] ColorBasicParser.Func_Context context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterNumber([NotNull] ColorBasicParser.NumberContext context);
+	void EnterSigned_number([NotNull] ColorBasicParser.Signed_numberContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitNumber([NotNull] ColorBasicParser.NumberContext context);
+	void ExitSigned_number([NotNull] ColorBasicParser.Signed_numberContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.signExpression"/>.
 	/// </summary>
@@ -202,15 +212,25 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLte([NotNull] ColorBasicParser.LteContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.var_"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.var_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterVar_([NotNull] ColorBasicParser.Var_Context context);
+	void EnterVar_number([NotNull] ColorBasicParser.Var_numberContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.var_"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.var_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitVar_([NotNull] ColorBasicParser.Var_Context context);
+	void ExitVar_number([NotNull] ColorBasicParser.Var_numberContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.var_string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVar_string([NotNull] ColorBasicParser.Var_stringContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.var_string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVar_string([NotNull] ColorBasicParser.Var_stringContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.varname"/>.
 	/// </summary>

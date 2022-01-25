@@ -34,8 +34,8 @@ namespace BASICLanguageParser.UT
         protected virtual int RunSound(string txt)
         {
             SetupLexerParser(txt);
-            ColorBasicParser.SoundstmtContext soundStmtContext = parser.soundstmt();
-            int result = VisitNode(soundStmtContext);
+            //ColorBasicParser.SoundstmtContext soundStmtContext = parser.soundstmt();
+            int result = 0; // VisitNode(soundStmtContext);
             return result;
         }
     }

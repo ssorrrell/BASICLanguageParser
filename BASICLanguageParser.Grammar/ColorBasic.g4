@@ -48,12 +48,17 @@ line
    ;
 
 linenumber
-   : LINENUMBER+
+   : DIGIT+
+   ;
+
+number
+   : (DIGIT* '.'? DIGIT* (('E')('+' | '-')? DIGIT+) | DIGIT* '.' DIGIT* | DIGIT+)
    ;
 
 substatement
    : (statement | COMMENT)
    ;
+
 
 /****************************master statement table*************************************/
 statement
@@ -104,7 +109,7 @@ statement
 /****************************master function table*************************************/
 func_
    : STRINGLITERAL
-   | number
+   | signed_number
    | vardecl
    | chrfunc
    | lenfunc
@@ -129,8 +134,8 @@ func_
    ;
 
 // expressions and such
-number
-   :  ('+' | '-')? (NUMBER)
+signed_number
+   :  ('+' | '-')? (number)
    ;
 
 signExpression
@@ -142,7 +147,7 @@ exponentExpression
    ;
 
 multiplyingExpression
-   : exponentExpression ((MUL | DIV) exponentExpression)*
+   : exponentExpression ((MULTIPLY | DIVIDE) exponentExpression)*
    ;
 
 addingExpression
@@ -180,12 +185,16 @@ lte
     : LT EQ
     ;
 
-var_
-   : varname varsuffix?
+var_number
+   : varname
+   ;
+
+var_string
+   : varname varsuffix
    ;
 
 varname
-   : LETTERS (LETTERS | LINENUMBER)*
+   : LETTER (LETTER | DIGIT)*
    ;
 
 varsuffix
@@ -197,7 +206,7 @@ varlist
    ;
 
 vardecl
-   : var_ (LPAREN exprlist RPAREN)*
+   : var_number (LPAREN exprlist RPAREN)*
    ;
 
 variableassignment
@@ -291,7 +300,7 @@ memfunc
    ; 
 
 usrfunc
-   : USR SINGLE_DIGIT LPAREN expression RPAREN
+   : USR DIGIT LPAREN expression RPAREN
    ;
 
 /*******************statements**********************/
@@ -342,7 +351,7 @@ returnstmt
    ;
 
 datastmt
-   : DATA datum (COMMA datum?)*
+   : DATA datum+ (COMMA datum+)*
    ;
 
 readstmt
@@ -469,7 +478,7 @@ closestmt
    : CLOSE HASH (DEVICE_CASSETTE)?
    ; 
 
-/******************************Lexer***************************************/
+/******************************Lexer***************************************/   
 LET //assign variables
    : 'LET'
    ;
@@ -755,11 +764,11 @@ SUBTRACT
    : '-'
    ;
 
-MUL
+MULTIPLY
    : '*'
    ;
 
-DIV
+DIVIDE
    : '/'
    ;
 
@@ -815,44 +824,16 @@ RPAREN
     : ')'
     ;
 
-DEVICE_KEYBOARD
-    : '0'
-    ;
-
-DEVICE_CASSETTE
-    : '-1'
-    ;
-
-DEVICE_PRINTER
-    : '-2'
-    ;
-
-DEVICE_RS232
-    : '-3'
-    ;
-
-DATUM //i think this is actually much more inclusive - todo redo rule
-   : [a-zA-Z0-9]+
-   ;
-
-LETTERS
-   : [A-Z]+
-   ;
-
-SINGLE_DIGIT
-   : [0-9]
-   ;
-
-// DIGITS
-//    : [0-9]+
-//    ;
-
-LINENUMBER //1-5 DIGITS
+DIGIT
    : '0'..'9'
    ;
 
-NUMBER
-   : ([0-9]* '.'? [0-9]* (('E')('+' | '-')? [0-9]+) | [0-9]* '.' [0-9]* )
+LETTER
+   : [A-Z]
+   ;
+
+DATUM //i think this should be actually much more inclusive - todo redo rule
+   : [a-zA-Z0-9]
    ;
 
 STRINGLITERAL
@@ -862,3 +843,24 @@ STRINGLITERAL
 WS
    : [ \t]+ -> channel (HIDDEN)
    ;
+
+ /*******************fragments**********************/  
+fragment
+DEVICE_KEYBOARD
+    : '0'
+    ;
+
+fragment
+DEVICE_CASSETTE
+    : '-1'
+    ;
+
+fragment
+DEVICE_PRINTER
+    : '-2'
+    ;
+
+fragment
+DEVICE_RS232
+    : '-3'
+    ;

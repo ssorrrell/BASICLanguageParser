@@ -73,6 +73,18 @@ public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLinenumber([NotNull] ColorBasicParser.LinenumberContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNumber([NotNull] ColorBasicParser.NumberContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNumber([NotNull] ColorBasicParser.NumberContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -109,17 +121,17 @@ public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFunc_([NotNull] ColorBasicParser.Func_Context context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNumber([NotNull] ColorBasicParser.NumberContext context) { }
+	public virtual void EnterSigned_number([NotNull] ColorBasicParser.Signed_numberContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNumber([NotNull] ColorBasicParser.NumberContext context) { }
+	public virtual void ExitSigned_number([NotNull] ColorBasicParser.Signed_numberContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.signExpression"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -241,17 +253,29 @@ public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLte([NotNull] ColorBasicParser.LteContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.var_"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.var_number"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterVar_([NotNull] ColorBasicParser.Var_Context context) { }
+	public virtual void EnterVar_number([NotNull] ColorBasicParser.Var_numberContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.var_"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.var_number"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitVar_([NotNull] ColorBasicParser.Var_Context context) { }
+	public virtual void ExitVar_number([NotNull] ColorBasicParser.Var_numberContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.var_string"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterVar_string([NotNull] ColorBasicParser.Var_stringContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.var_string"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitVar_string([NotNull] ColorBasicParser.Var_stringContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.varname"/>.
 	/// <para>The default implementation does nothing.</para>

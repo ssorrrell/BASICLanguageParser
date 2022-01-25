@@ -34,8 +34,8 @@ namespace BASICLanguageParser.UT
         protected virtual int RunABS(string txt)
         {
             SetupLexerParser(txt);
-            ColorBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
-            int result = VisitNode(absDefinitionContext);
+            //ColorBasicParser.AbsfuncContext absDefinitionContext = parser.absfunc();
+            int result = 0; // VisitNode(absDefinitionContext);
             return result;
         }
     }

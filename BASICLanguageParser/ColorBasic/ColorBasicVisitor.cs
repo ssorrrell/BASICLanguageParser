@@ -51,6 +51,12 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLinenumber([NotNull] ColorBasicParser.LinenumberContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNumber([NotNull] ColorBasicParser.NumberContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -69,11 +75,11 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFunc_([NotNull] ColorBasicParser.Func_Context context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.number"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNumber([NotNull] ColorBasicParser.NumberContext context);
+	Result VisitSigned_number([NotNull] ColorBasicParser.Signed_numberContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.signExpression"/>.
 	/// </summary>
@@ -135,11 +141,17 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLte([NotNull] ColorBasicParser.LteContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.var_"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.var_number"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitVar_([NotNull] ColorBasicParser.Var_Context context);
+	Result VisitVar_number([NotNull] ColorBasicParser.Var_numberContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.var_string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVar_string([NotNull] ColorBasicParser.Var_stringContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.varname"/>.
 	/// </summary>

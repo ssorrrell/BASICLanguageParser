@@ -34,8 +34,8 @@ namespace BASICLanguageParser.UT
         protected virtual int RunCLoad(string txt)
         {
             SetupLexerParser(txt);
-            ColorBasicParser.CloadstmtContext cloadStmtContext = parser.cloadstmt();
-            int result = VisitNode(cloadStmtContext);
+            //ColorBasicParser.CloadstmtContext cloadStmtContext = parser.cloadstmt();
+            int result = 0; // VisitNode(cloadStmtContext);
             return result;
         }
     }

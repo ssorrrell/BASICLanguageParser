@@ -232,8 +232,8 @@ namespace BASICLanguageParser.UT
         protected virtual int RunExpression(string txt)
         {
             SetupLexerParser(txt);
-            ColorBasicParser.ExpressionContext expressionContext = parser.expression();
-            int result = VisitNode(expressionContext);
+            //ColorBasicParser.ExpressionContext expressionContext = parser.expression();
+            int result = 0; // VisitNode(expressionContext);
             return result;
         }
     }

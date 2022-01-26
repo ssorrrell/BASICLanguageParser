@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.IO;
 using Antlr4.Runtime;
+using BASICLanguageParser.UT.Common;
 
 namespace BASICLanguageParser.UT
 {
@@ -21,15 +22,15 @@ namespace BASICLanguageParser.UT
         {
             var filename = "hello_world.bas";
             var result = RunProg(filename);
-            Assert.AreEqual(0, result, "Wrong Error Count ProgTest Case: {0}", filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
         [Test]
-        public void DiskStatements()
+        public void IOStatements()
         {
-            var filename = "disk_statements.bas";
+            var filename = "io_statements.bas";
             var result = RunProg(filename);
-            Assert.AreEqual(0, result, "Wrong Error Count ProgTest Case: {0}", filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
 
@@ -38,15 +39,15 @@ namespace BASICLanguageParser.UT
         {
             var filename = "math_expressions.bas";
             var result = RunProg(filename);
-            Assert.AreEqual(0, result, "Wrong Error Count ProgTest Case: {0}", filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
         [Test]
-        public void memory_statments()
+        public void MemoryStatments()
         {
             var filename = "memory_statements.bas";
             var result = RunProg(filename);
-            Assert.AreEqual(0, result, "Wrong Error Count ProgTest Case: {0}", filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
         [Test]
@@ -54,7 +55,7 @@ namespace BASICLanguageParser.UT
         {
             var filename = "print_statements.bas";
             var result = RunProg(filename);
-            Assert.AreEqual(0, result, "Wrong Error Count ProgTest Case: {0}", filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
         [Test]
@@ -62,12 +63,12 @@ namespace BASICLanguageParser.UT
         {
             var filename = "string_expressions.bas";
             var result = RunProg(filename);
-            Assert.AreEqual(0, result, "Wrong Error Count ProgTest Case: {0}", filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
         /*************************************Internal****************************************/
 
-        private int RunProg(string filename)
+        private ErrorResult RunProg(string filename)
         {
             string path = Path.Combine(Environment.CurrentDirectory, programPath, filename);
             AntlrFileStream stream = new AntlrFileStream(path);
@@ -82,7 +83,13 @@ namespace BASICLanguageParser.UT
             ColorBasicBaseVisitor<object> visitor = new ColorBasicBaseVisitor<object>();
             visitor.Visit(progContext);
             parser.RemoveErrorListeners();
-            return lexErrorListener.Errors.Count + parseErrorListener.Errors.Count;
+            ErrorResult errorResult = new ErrorResult();
+            errorResult.ErrorCount = lexErrorListener.Errors.Count + parseErrorListener.Errors.Count;
+            errorResult.LexerErrorCount = lexErrorListener.Errors.Count;
+            errorResult.ParserErrorCount = parseErrorListener.Errors.Count;
+            errorResult.LexerErrorList = lexErrorListener.Errors;
+            errorResult.ParserErrorList = parseErrorListener.Errors;
+            return errorResult;
         }
     }
 }

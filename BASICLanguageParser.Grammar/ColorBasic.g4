@@ -39,7 +39,7 @@ Color Basic Unravelled series and the Color Computer Basic Manual and Quick Refe
 
 /******************************Parser***************************************/
 prog
-   : line+
+   : line+ EOF
    ;
 
 // a line starts with an integer
@@ -843,6 +843,10 @@ STRINGLITERAL
 WS
    : [ \t]+ -> channel (HIDDEN)
    ;
+
+ EOL
+   : [\r\n] -> channel (HIDDEN)
+   ;  
 
  /*******************fragments**********************/  
 fragment

@@ -52,7 +52,7 @@ linenumber
    ;
 
 number
-   : (DIGIT* '.'? DIGIT* (('E')('+' | '-')? DIGIT+) | DIGIT* '.' DIGIT* | DIGIT+)
+   : (DIGIT* '.'? DIGIT* ((EXP_CHAR)('+' | '-')? DIGIT+) | DIGIT* '.' DIGIT* | DIGIT+)
    ;
 
 substatement
@@ -471,7 +471,7 @@ skipfstmt
    ; 
 
 openstmt
-   : OPEN ('"I"' | '"O"' ) COMMA HASH (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expression
+   : OPEN (OPEN_INPUT | OPEN_OUTPUT ) COMMA HASH (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expression
    ; 
 
 closestmt
@@ -868,3 +868,18 @@ fragment
 DEVICE_RS232
     : '-3'
     ;
+
+fragment
+OPEN_INPUT
+   : '"I"'
+   ;
+
+fragment
+OPEN_OUTPUT
+   : '"O"'
+   ;
+
+fragment
+EXP_CHAR
+   : 'E'
+   ;

@@ -14,7 +14,8 @@ namespace BASICLanguageParser
 
         public void SyntaxError(TextWriter output, IRecognizer recognizer, int offendingSymbol, int line, int col, string msg, RecognitionException e)
         {
-            var Error = $"Incorrect syntax near '{offendingSymbol}' (column {col}, line {line})";
+            int col2 = 1 + col;
+            var Error = $"{line}:{col}-{line}:{col2} Incorrect syntax near '{offendingSymbol}'";
             Errors.Add(Error);
         }
     }
@@ -39,21 +40,24 @@ namespace BASICLanguageParser
             string msg,
             RecognitionException e)
         {
-            var l = (line == 1 ? "" : $", line {line}");
-            var c = $"(column {col}{l})";
 
-            var s = offendingSymbol.Text;
-            if (s == "<EOF>")
+            //var l = (line == 1 ? "" : $", line {line}");
+            //var c = $"(column {col}{l})";
+
+            var symbolText = offendingSymbol.Text;
+            int col2 = symbolText.Length + col;
+            string error = "";
+            if (symbolText == "<EOF>")
             {
-                s = $"at the end of the criteria {c}. Is there a missing parenthises or unclosed string?";
+                error = $"at the end of the criteria. Is there a missing parenthises or unclosed string?";
             }
             else
             {
-                s = $"near '{s}' {c}";
+                error = $"near '{symbolText}'";
             }
-            var Error = $"Incorrect syntax {s}";
+            string errorMessage = $"{line}:{col}-{line}:{col2} Incorrect syntax {error}";
 
-            Errors.Add(Error);
+            Errors.Add(errorMessage);
         }
     }
 }

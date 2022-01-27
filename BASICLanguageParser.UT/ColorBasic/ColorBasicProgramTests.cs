@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using System.IO;
 using Antlr4.Runtime;
-using BASICLanguageParser.UT.Common;
+using BASICLanguageParser.Common;
 
 namespace BASICLanguageParser.UT
 {

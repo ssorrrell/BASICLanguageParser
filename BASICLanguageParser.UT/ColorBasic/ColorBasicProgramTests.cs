@@ -33,6 +33,21 @@ namespace BASICLanguageParser.UT
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
+        [Test]
+        public void LASER_STAR_Program()
+        {   //this is actually an ecb file
+            var filename = "laser_star.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void LINE_JUSTIFIER_Program()
+        {   //this is actually an ecb file because of string$
+            var filename = "line_justifier.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
 
         [Test]
         public void MathExpressions()

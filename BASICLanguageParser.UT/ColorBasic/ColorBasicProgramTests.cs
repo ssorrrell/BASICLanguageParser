@@ -50,6 +50,14 @@ namespace BASICLanguageParser.UT
         }
 
         [Test]
+        public void GOSUB_example_Program()
+        {   //this is actually an ecb file because of string$
+            var filename = "GOSUB example.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
         public void MathExpressions()
         {
             var filename = "math_expressions.bas";

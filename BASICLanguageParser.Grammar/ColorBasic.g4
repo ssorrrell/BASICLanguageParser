@@ -210,7 +210,7 @@ vardecl
    ;
 
 variableassignment
-   : vardecl EQ exprlist
+   : vardecl EQ expression
    ;
 
 exprlist
@@ -395,7 +395,7 @@ lliststmt
    ;
 
 inputstmt1
-    : INPUT (vardecl (COMMA vardecl)*)
+    : INPUT (func_ (INPUT_COMMA func_)*)
     ;
 
 inputstmt2
@@ -403,7 +403,7 @@ inputstmt2
     ;
 
 printstmt
-   : PRINT expression
+   : PRINT expression?
    ;
 
 printtabstmt
@@ -786,6 +786,10 @@ EQ
 
 COMMA
    : ','
+   ;
+
+INPUT_COMMA
+   : ',' | ';'
    ;
 
 SEMICOLON

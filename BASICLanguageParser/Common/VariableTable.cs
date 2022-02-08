@@ -29,7 +29,8 @@ namespace BASICLanguageParser.Common
             else if (variableType == VariableType.Number ||
                      variableType == VariableType.NumberArray)
                 item.FloatValue = floatValue;
-            item.LineNumberDim = lineNumberDim;
+            item.Analysis = new Analysis();
+            item.Analysis.LineNumberDim = lineNumberDim;
             variableDefinitions.Add(name, item);
         }
 
@@ -47,6 +48,12 @@ namespace BASICLanguageParser.Common
             return null;
         }
 
+        public void AddLineNumberUse(string name, int lineNo)
+        {
+            if (variableDefinitions.ContainsKey(name))
+                variableDefinitions[name].Analysis.Uses.Add(lineNo);
+        }
+
         public int GetDataSize()
         {
             //figure the number of variables, dimensions, string/number, etc.
@@ -55,6 +62,7 @@ namespace BASICLanguageParser.Common
         }
     }
 
+    //Variable Info like size and type
     public class VariableDefinition
     {
         public string Name { get; set; }
@@ -63,15 +71,23 @@ namespace BASICLanguageParser.Common
         public int[] ArraySize { get; set; } // 0-based array size of each dimension
         public string StringValue { get; set; } //value if a string variable
         public float FloatValue { get; set; } //value if a number variable
-        public int LineNumberDim { get; set; } //line number where this variable is defined; none is not dimmed
+        public Analysis Analysis { get; set; } //variable analysis results
 
     }
 
+    //Data Type
     public enum VariableType
     {
         Number,
         String,
         NumberArray,
         StringArray
+    }
+
+    public class Analysis
+    {
+        //For Find All References and Goto Definition
+        public List<int> Uses { get; set; } //line numbers where this variable is used
+        public int LineNumberDim { get; set; } //line number where this variable is defined; none is not dimmed
     }
 }

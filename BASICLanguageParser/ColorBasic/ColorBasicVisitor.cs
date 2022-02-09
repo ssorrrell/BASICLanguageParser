@@ -69,53 +69,65 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatement([NotNull] ColorBasicParser.StatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.func_"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.char_expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFunc_([NotNull] ColorBasicParser.Func_Context context);
+	Result VisitChar_expr([NotNull] ColorBasicParser.Char_exprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
+	/// Visit a parse tree produced by the <c>UMINUS</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSigned_number([NotNull] ColorBasicParser.Signed_numberContext context);
+	Result VisitUMINUS([NotNull] ColorBasicParser.UMINUSContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.signExpression"/>.
+	/// Visit a parse tree produced by the <c>EXPONENT</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSignExpression([NotNull] ColorBasicParser.SignExpressionContext context);
+	Result VisitEXPONENT([NotNull] ColorBasicParser.EXPONENTContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.exponentExpression"/>.
+	/// Visit a parse tree produced by the <c>PARENGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExponentExpression([NotNull] ColorBasicParser.ExponentExpressionContext context);
+	Result VisitPARENGRP([NotNull] ColorBasicParser.PARENGRPContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.multiplyingExpression"/>.
+	/// Visit a parse tree produced by the <c>DOUBLE</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMultiplyingExpression([NotNull] ColorBasicParser.MultiplyingExpressionContext context);
+	Result VisitDOUBLE([NotNull] ColorBasicParser.DOUBLEContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.addingExpression"/>.
+	/// Visit a parse tree produced by the <c>MULOPGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAddingExpression([NotNull] ColorBasicParser.AddingExpressionContext context);
+	Result VisitMULOPGRP([NotNull] ColorBasicParser.MULOPGRPContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.relationalExpression"/>.
+	/// Visit a parse tree produced by the <c>ADDOPGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context);
+	Result VisitADDOPGRP([NotNull] ColorBasicParser.ADDOPGRPContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.expression"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.addop"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpression([NotNull] ColorBasicParser.ExpressionContext context);
+	Result VisitAddop([NotNull] ColorBasicParser.AddopContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.mulop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMulop([NotNull] ColorBasicParser.MulopContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.relop"/>.
 	/// </summary>

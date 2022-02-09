@@ -92,85 +92,107 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitStatement([NotNull] ColorBasicParser.StatementContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.func_"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.char_expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFunc_([NotNull] ColorBasicParser.Func_Context context);
+	void EnterChar_expr([NotNull] ColorBasicParser.Char_exprContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.func_"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.char_expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFunc_([NotNull] ColorBasicParser.Func_Context context);
+	void ExitChar_expr([NotNull] ColorBasicParser.Char_exprContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
+	/// Enter a parse tree produced by the <c>UMINUS</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterSigned_number([NotNull] ColorBasicParser.Signed_numberContext context);
+	void EnterUMINUS([NotNull] ColorBasicParser.UMINUSContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.signed_number"/>.
+	/// Exit a parse tree produced by the <c>UMINUS</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitSigned_number([NotNull] ColorBasicParser.Signed_numberContext context);
+	void ExitUMINUS([NotNull] ColorBasicParser.UMINUSContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.signExpression"/>.
+	/// Enter a parse tree produced by the <c>EXPONENT</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterSignExpression([NotNull] ColorBasicParser.SignExpressionContext context);
+	void EnterEXPONENT([NotNull] ColorBasicParser.EXPONENTContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.signExpression"/>.
+	/// Exit a parse tree produced by the <c>EXPONENT</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitSignExpression([NotNull] ColorBasicParser.SignExpressionContext context);
+	void ExitEXPONENT([NotNull] ColorBasicParser.EXPONENTContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.exponentExpression"/>.
+	/// Enter a parse tree produced by the <c>PARENGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterExponentExpression([NotNull] ColorBasicParser.ExponentExpressionContext context);
+	void EnterPARENGRP([NotNull] ColorBasicParser.PARENGRPContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.exponentExpression"/>.
+	/// Exit a parse tree produced by the <c>PARENGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitExponentExpression([NotNull] ColorBasicParser.ExponentExpressionContext context);
+	void ExitPARENGRP([NotNull] ColorBasicParser.PARENGRPContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.multiplyingExpression"/>.
+	/// Enter a parse tree produced by the <c>DOUBLE</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterMultiplyingExpression([NotNull] ColorBasicParser.MultiplyingExpressionContext context);
+	void EnterDOUBLE([NotNull] ColorBasicParser.DOUBLEContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.multiplyingExpression"/>.
+	/// Exit a parse tree produced by the <c>DOUBLE</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitMultiplyingExpression([NotNull] ColorBasicParser.MultiplyingExpressionContext context);
+	void ExitDOUBLE([NotNull] ColorBasicParser.DOUBLEContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.addingExpression"/>.
+	/// Enter a parse tree produced by the <c>MULOPGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAddingExpression([NotNull] ColorBasicParser.AddingExpressionContext context);
+	void EnterMULOPGRP([NotNull] ColorBasicParser.MULOPGRPContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.addingExpression"/>.
+	/// Exit a parse tree produced by the <c>MULOPGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAddingExpression([NotNull] ColorBasicParser.AddingExpressionContext context);
+	void ExitMULOPGRP([NotNull] ColorBasicParser.MULOPGRPContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.relationalExpression"/>.
+	/// Enter a parse tree produced by the <c>ADDOPGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context);
+	void EnterADDOPGRP([NotNull] ColorBasicParser.ADDOPGRPContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.relationalExpression"/>.
+	/// Exit a parse tree produced by the <c>ADDOPGRP</c>
+	/// labeled alternative in <see cref="ColorBasicParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context);
+	void ExitADDOPGRP([NotNull] ColorBasicParser.ADDOPGRPContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.expression"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.addop"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterExpression([NotNull] ColorBasicParser.ExpressionContext context);
+	void EnterAddop([NotNull] ColorBasicParser.AddopContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.expression"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.addop"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitExpression([NotNull] ColorBasicParser.ExpressionContext context);
+	void ExitAddop([NotNull] ColorBasicParser.AddopContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.mulop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMulop([NotNull] ColorBasicParser.MulopContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.mulop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMulop([NotNull] ColorBasicParser.MulopContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.relop"/>.
 	/// </summary>

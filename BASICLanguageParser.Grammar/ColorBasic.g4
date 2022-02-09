@@ -1,5 +1,9 @@
 
 grammar ColorBasic;
+options
+{
+    language=CSharp;
+}
 
 /*
 [The "BSD licence"]
@@ -107,61 +111,78 @@ statement
    ;
 
 /****************************master function table*************************************/
-func_
+// func_
+//    : STRINGLITERAL
+//    | signed_number
+//    | vardecl
+//    | chrfunc
+//    | lenfunc
+//    | strfunc
+//    | midfunc
+//    | peekfunc
+//    | intfunc
+//    | leftfunc
+//    | valfunc
+//    | rightfunc
+//    | sinfunc
+//    | rndfunc
+//    | sgnfunc
+//    | absfunc
+//    | inkeyfunc
+//    | joystkfunc
+//    | eoffunc
+//    | pointfunc
+//    | memfunc
+//    | usrfunc
+//    | (LPAREN expr RPAREN)
+//    ;
+
+// exprs and such
+// signed_number
+//    :  ('+' | '-')? (number)
+//    ;
+
+// signExpression
+//    : NOT+ (ADD | SUBTRACT)? func_
+//    ;
+
+// exponentExpression
+//    : signExpression ( <assoc=right> EXP signExpression)*
+//    ;
+
+// multiplyingExpression
+//    : exponentExpression ((MULTIPLY | DIVIDE) exponentExpression)*
+//    ;
+
+// addingExpression
+//    : multiplyingExpression ((ADD | SUBTRACT) multiplyingExpression)*
+//    ;
+
+// relationalExpression
+//    : addingExpression ((relop) addingExpression)?
+//    ;
+
+// expr
+//    : func_
+//    | (relationalExpression ((AND | OR) relationalExpression)*)
+//    ;
+
+char_expr
    : STRINGLITERAL
-   | signed_number
-   | vardecl
-   | chrfunc
-   | lenfunc
-   | strfunc
-   | midfunc
-   | peekfunc
-   | intfunc
-   | leftfunc
-   | valfunc
-   | rightfunc
-   | sinfunc
-   | rndfunc
-   | sgnfunc
-   | absfunc
-   | inkeyfunc
-   | joystkfunc
-   | eoffunc
-   | pointfunc
-   | memfunc
-   | usrfunc
-   | (LPAREN expression RPAREN)
    ;
 
-// expressions and such
-signed_number
-   :  ('+' | '-')? (number)
+expr
+   : '-' expr                          # UMINUS
+   | expr addop expr                   # ADDOPGRP
+   | expr mulop expr                   # MULOPGRP
+   | expr ( <assoc=right> EXP expr )   # EXPONENT
+   | '(' expr ')'                      # PARENGRP
+   | number                            # DOUBLE
    ;
 
-signExpression
-   : NOT+ (ADD | SUBTRACT)? func_
-   ;
+addop : '+' | '-' ;
 
-exponentExpression
-   : signExpression ( <assoc=right> EXP signExpression)*
-   ;
-
-multiplyingExpression
-   : exponentExpression ((MULTIPLY | DIVIDE) exponentExpression)*
-   ;
-
-addingExpression
-   : multiplyingExpression ((ADD | SUBTRACT) multiplyingExpression)*
-   ;
-
-relationalExpression
-   : addingExpression ((relop) addingExpression)?
-   ;
-
-expression
-   : func_
-   | (relationalExpression ((AND | OR) relationalExpression)*)
-   ;
+mulop : '*' | '/'  ;
 
 relop
    : gte
@@ -210,11 +231,11 @@ vardecl
    ;
 
 variableassignment
-   : vardecl EQ expression
+   : vardecl EQ expr
    ;
 
 exprlist
-   : expression (COMMA expression)*
+   : expr (COMMA expr)*
    ;
 
 datum
@@ -224,55 +245,55 @@ datum
 
 /*******************functions**********************/
 absfunc
-   : ABS LPAREN expression RPAREN
+   : ABS LPAREN expr RPAREN
    ;
 
 ascfunc
-   : ASC LPAREN expression RPAREN
+   : ASC LPAREN expr RPAREN
    ;
 
 sgnfunc
-   : SGN LPAREN expression RPAREN
+   : SGN LPAREN expr RPAREN
    ;
 
 intfunc
-   : INT LPAREN expression RPAREN
+   : INT LPAREN expr RPAREN
    ;
 
 sinfunc
-   : SIN LPAREN expression RPAREN
+   : SIN LPAREN expr RPAREN
    ;
 
 rndfunc
-   : RND LPAREN expression RPAREN
+   : RND LPAREN expr RPAREN
    ;
 
 lenfunc
-   : LEN LPAREN expression RPAREN
+   : LEN LPAREN expr RPAREN
    ;
 
 valfunc
-   : VAL LPAREN expression RPAREN
+   : VAL LPAREN expr RPAREN
    ;
 
 chrfunc
-   : CHR LPAREN expression RPAREN
+   : CHR LPAREN expr RPAREN
    ;
 
 midfunc
-   : MID LPAREN expression COMMA expression COMMA expression RPAREN
+   : MID LPAREN expr COMMA expr COMMA expr RPAREN
    ;
 
 leftfunc
-   : LEFT LPAREN expression COMMA expression RPAREN
+   : LEFT LPAREN expr COMMA expr RPAREN
    ;
 
 rightfunc
-   : RIGHT LPAREN expression COMMA expression RPAREN
+   : RIGHT LPAREN expr COMMA expr RPAREN
    ; 
 
 strfunc
-   : STR LPAREN expression RPAREN
+   : STR LPAREN expr RPAREN
    ;
 
 inkeyfunc
@@ -280,19 +301,19 @@ inkeyfunc
    ;
 
 joystkfunc
-   : JOYSTK LPAREN expression RPAREN
+   : JOYSTK LPAREN expr RPAREN
    ;
 
 eoffunc
-   : EOFTOKEN LPAREN expression RPAREN
+   : EOFTOKEN LPAREN expr RPAREN
    ;
 
 peekfunc
-   : PEEK LPAREN expression RPAREN
+   : PEEK LPAREN expr RPAREN
    ;
 
 pointfunc
-   : POINT LPAREN expression COMMA expression RPAREN
+   : POINT LPAREN expr COMMA expr RPAREN
    ;
 
 memfunc
@@ -300,7 +321,7 @@ memfunc
    ; 
 
 usrfunc
-   : USR DIGIT LPAREN expression RPAREN
+   : USR DIGIT LPAREN expr RPAREN
    ;
 
 /*******************statements**********************/
@@ -315,7 +336,7 @@ dimstmt
 
 // for stmt puts the for, the statment, and the next on 3 lines.  It needs "nextstmt"
 forstmt
-   : FOR vardecl EQ expression TO expression (STEP expression)?
+   : FOR vardecl EQ expr TO expr (STEP expr)?
    ;
 
 nextstmt
@@ -323,11 +344,11 @@ nextstmt
    ;
 
 ifstmt1
-   : IF expression THEN? ((statement)+ | linenumber)
+   : IF expr THEN? ((statement)+ | linenumber)
    ;
 
 ifstmt2
-   : IF expression THEN ((statement)+ | linenumber) ELSE ((statement)+ | linenumber)
+   : IF expr THEN ((statement)+ | linenumber) ELSE ((statement)+ | linenumber)
    ;
 
 gotostmt
@@ -339,11 +360,11 @@ gosubstmt
    ;
 
 ongotostmt
-   : ON expression GO TO linenumber (COMMA linenumber)*
+   : ON expr GO TO linenumber (COMMA linenumber)*
    ;
 
 ongosubstmt
-   : ON expression GO SUB linenumber (COMMA linenumber)*
+   : ON expr GO SUB linenumber (COMMA linenumber)*
    ;
 
 returnstmt
@@ -394,48 +415,52 @@ lliststmt
    : LLIST
    ;
 
+// inputstmt1
+//     : INPUT (func_ (INPUT_COMMA func_)*)
+//     ;
+
 inputstmt1
-    : INPUT (func_ (INPUT_COMMA func_)*)
-    ;
+   : INPUT (STRINGLITERAL ';')? varlist
+   ;
 
 inputstmt2
     : INPUT HASH DEVICE_CASSETTE COMMA (vardecl (COMMA vardecl)*)
     ;
 
 printstmt
-   : PRINT expression?
+   : PRINT char_expr?
    ;
 
 printtabstmt
-   : PRINT TAB LPAREN expression RPAREN SEMICOLON expression
+   : PRINT TAB LPAREN expr RPAREN SEMICOLON expr
    ;
 
 printhashstmt
-   : PRINT HASH (DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expression 
+   : PRINT HASH (DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expr 
    ;
 
 printatstmt
-   : PRINT AT expression COMMA expression 
+   : PRINT AT expr COMMA expr 
    ;
 
 setstmt
-   : SET LPAREN expression COMMA expression (COMMA expression)+ RPAREN
+   : SET LPAREN expr COMMA expr (COMMA expr)+ RPAREN
    ;
    
 resetstmt
-   : RESET LPAREN expression COMMA expression RPAREN
+   : RESET LPAREN expr COMMA expr RPAREN
    ;
 
 clsstmt
-   : CLS expression
+   : CLS expr
    ;
 
 execstmt
-   : EXEC expression
+   : EXEC expr
    ;
 
 pokestmt
-   : POKE expression COMMA expression
+   : POKE expr COMMA expr
    ;
 
 motorstmt
@@ -447,31 +472,31 @@ audiostmt
    ;
 
 soundstmt
-   : SOUND expression COMMA expression
+   : SOUND expr COMMA expr
    ;   
 
 cloadstmt
-   : CLOAD expression
+   : CLOAD expr
    ; 
 
 cloadmstmt
-   : CLOAD expression COMMA expression
+   : CLOAD expr COMMA expr
    ; 
 
 csavestmt
-   : CSAVE expression COMMA expression
+   : CSAVE expr COMMA expr
    ;
 
 csavemstmt
-   : CSAVEM expression COMMA expression COMMA expression COMMA expression
+   : CSAVEM expr COMMA expr COMMA expr COMMA expr
    ; 
 
 skipfstmt
-   : SKIPF expression
+   : SKIPF expr
    ; 
 
 openstmt
-   : OPEN (OPEN_INPUT | OPEN_OUTPUT ) COMMA HASH (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expression
+   : OPEN (OPEN_INPUT | OPEN_OUTPUT ) COMMA HASH (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expr
    ; 
 
 closestmt

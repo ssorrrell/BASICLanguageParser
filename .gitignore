@@ -9,3 +9,9 @@
 /ECB2_Lib.Parser/bin
 /ECB2_Lib.Parser.UT/bin
 /ECB2_Lib.Parser.Grammar/bin
+/BASICLanguageParser/obj
+/BASICLanguageParser.Grammar/obj
+/BASICLanguageParser.Grammar/bin/Debug
+/BASICLanguageParser.Grammar/.~lock.Tokens.xlsx#
+/BASICLanguageParser/out
+/BASICLanguageParser/BASICLanguageParser - Backup.csproj

@@ -66,7 +66,7 @@ substatement
 
 /****************************master statement table*************************************/
 statement
-   :  returnstmt
+    : returnstmt
     | restorestmt
     | printstmt
     | nextstmt
@@ -93,7 +93,6 @@ statement
     | contstmt
     | liststmt
     | lliststmt
-    | letstmt
     | setstmt
     | resetstmt
     | clsstmt
@@ -108,6 +107,7 @@ statement
     | skipfstmt
     | openstmt
     | closestmt
+    | letstmt
    ;
 
 /****************************master function table*************************************/

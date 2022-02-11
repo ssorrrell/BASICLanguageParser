@@ -48,19 +48,7 @@ prog
 
 // a line starts with an integer
 line
-   : (linenumber substatement (COLON substatement)*)
-   ;
-
-linenumber
-   : DIGIT+
-   ;
-
-number
-   : (DIGIT* '.'? DIGIT* ((EXP_CHAR)('+' | '-')? DIGIT+) | DIGIT* '.' DIGIT* | DIGIT+)
-   ;
-
-substatement
-   : (statement | COMMENT)
+   : LINENUMBER (statement | COMMENT) (':' (statement | COMMENT))*
    ;
 
 
@@ -75,7 +63,6 @@ statement
     | ifstmt2
     | forstmt
     | inputstmt1
-    | inputstmt2
     | dimstmt
     | gotostmt
     | gosubstmt
@@ -134,28 +121,28 @@ statement
 //    | pointfunc
 //    | memfunc
 //    | usrfunc
-//    | (LPAREN expr RPAREN)
+//    | ('(' expr ')')
 //    ;
 
 // exprs and such
 // signed_number
-//    :  ('+' | '-')? (number)
+//    :  ('+' | '-')? (NUMBER)
 //    ;
 
 // signExpression
-//    : NOT+ (ADD | SUBTRACT)? func_
+//    : NOT+ ('+' | '-')? func_
 //    ;
 
 // exponentExpression
-//    : signExpression ( <assoc=right> EXP signExpression)*
+//    : signExpression ( <assoc=right> '^' signExpression)*
 //    ;
 
 // multiplyingExpression
-//    : exponentExpression ((MULTIPLY | DIVIDE) exponentExpression)*
+//    : exponentExpression (('*' | '/') exponentExpression)*
 //    ;
 
 // addingExpression
-//    : multiplyingExpression ((ADD | SUBTRACT) multiplyingExpression)*
+//    : multiplyingExpression (('+' | '-') multiplyingExpression)*
 //    ;
 
 // relationalExpression
@@ -175,9 +162,9 @@ expr
    : '-' expr                          # UMINUS
    | expr addop expr                   # ADDOPGRP
    | expr mulop expr                   # MULOPGRP
-   | expr ( <assoc=right> EXP expr )   # EXPONENT
+   | expr ( <assoc=right> '^' expr )   # EXPONENT
    | '(' expr ')'                      # PARENGRP
-   | number                            # DOUBLE
+   | NUMBER                            # DOUBLE
    ;
 
 addop : '+' | '-' ;
@@ -188,112 +175,104 @@ relop
    : gte
    | lte
    | neq
-   | EQ
-   | GT
-   | LT
+   | '='
+   | '>'
+   | '<'
    ;
 
 neq
-   : LT GT
-   | GT LT
+   : '<' '>'
+   | '>' '<'
    ;
 
 gte
-    : GT EQ
+    : '>' '='
     ;
 
 lte
-    : LT EQ
+    : '<' '='
     ;
 
 var_number
-   : varname
-   ;
-
-var_string
-   : varname varsuffix
-   ;
-
-varname
    : LETTER (LETTER | DIGIT)*
    ;
 
-varsuffix
-   : DOLLAR
-   ;
-
-varlist
-   : vardecl (COMMA vardecl)*
+var_string
+   : LETTER (LETTER | DIGIT)* '$'
    ;
 
 vardecl
-   : var_number (LPAREN exprlist RPAREN)*
+   : var_number ('(' exprlist ')')*
+   ;
+
+varlist
+   : vardecl (',' vardecl)*
    ;
 
 variableassignment
-   : vardecl EQ expr
+   : vardecl '=' expr
    ;
 
 exprlist
-   : expr (COMMA expr)*
+   : expr (',' expr)*
    ;
 
 datum
-   : number
+   : NUMBER
    | DATUM
    ;
 
 /*******************functions**********************/
 absfunc
-   : ABS LPAREN expr RPAREN
+   : ABS '(' expr ')'
    ;
 
 ascfunc
-   : ASC LPAREN expr RPAREN
+   : ASC '(' expr ')'
    ;
 
 sgnfunc
-   : SGN LPAREN expr RPAREN
+   : SGN '(' expr ')'
    ;
 
 intfunc
-   : INT LPAREN expr RPAREN
+   : INT '(' expr ')'
    ;
 
 sinfunc
-   : SIN LPAREN expr RPAREN
+   : SIN '(' expr ')'
    ;
 
 rndfunc
-   : RND LPAREN expr RPAREN
+   : RND '(' expr ')'
    ;
 
 lenfunc
-   : LEN LPAREN expr RPAREN
+   : LEN '(' expr ')'
    ;
 
 valfunc
-   : VAL LPAREN expr RPAREN
+   : VAL '(' expr ')'
    ;
 
 chrfunc
-   : CHR LPAREN expr RPAREN
+   : CHR '(' expr ')'
    ;
 
 midfunc
-   : MID LPAREN expr COMMA expr COMMA expr RPAREN
+   : MID '(' expr ',' expr ',' expr ')'
    ;
 
 leftfunc
-   : LEFT LPAREN expr COMMA expr RPAREN
+   : LEFT '(' expr ',' expr ')'
    ;
 
 rightfunc
-   : RIGHT LPAREN expr COMMA expr RPAREN
+   : RIGHT '(' expr ',' expr ')'
    ; 
 
 strfunc
-   : STR LPAREN expr RPAREN
+   : STR '(' expr ')'
    ;
 
 inkeyfunc
@@ -301,19 +280,19 @@ inkeyfunc
    ;
 
 joystkfunc
-   : JOYSTK LPAREN expr RPAREN
+   : JOYSTK '(' expr ')'
    ;
 
 eoffunc
-   : EOFTOKEN LPAREN expr RPAREN
+   : EOFTOKEN '(' expr ')'
    ;
 
 peekfunc
-   : PEEK LPAREN expr RPAREN
+   : PEEK '(' expr ')'
    ;
 
 pointfunc
-   : POINT LPAREN expr COMMA expr RPAREN
+   : POINT '(' expr ',' expr ')'
    ;
 
 memfunc
@@ -321,7 +300,7 @@ memfunc
    ; 
 
 usrfunc
-   : USR DIGIT LPAREN expr RPAREN
+   : USR DIGIT '(' expr ')'
    ;
 
 /*******************statements**********************/
@@ -336,35 +315,35 @@ dimstmt
 
 // for stmt puts the for, the statment, and the next on 3 lines.  It needs "nextstmt"
 forstmt
-   : FOR vardecl EQ expr TO expr (STEP expr)?
+   : FOR vardecl '=' expr TO expr (STEP expr)?
    ;
 
 nextstmt
-   : NEXT (vardecl (COMMA vardecl)*)?
+   : NEXT (varlist)?
    ;
 
 ifstmt1
-   : IF expr THEN? ((statement)+ | linenumber)
+   : IF expr THEN? ((statement)+ | LINENUMBER)
    ;
 
 ifstmt2
-   : IF expr THEN ((statement)+ | linenumber) ELSE ((statement)+ | linenumber)
+   : IF expr THEN ((statement)+ | LINENUMBER) ELSE ((statement)+ | LINENUMBER)
    ;
 
 gotostmt
-   : GO TO linenumber
+   : GO TO LINENUMBER
    ;
 
 gosubstmt
-   : GO SUB linenumber
+   : GO SUB LINENUMBER
    ;
 
 ongotostmt
-   : ON expr GO TO linenumber (COMMA linenumber)*
+   : ON expr GO TO LINENUMBER (',' LINENUMBER)*
    ;
 
 ongosubstmt
-   : ON expr GO SUB linenumber (COMMA linenumber)*
+   : ON expr GO SUB LINENUMBER (',' LINENUMBER)*
    ;
 
 returnstmt
@@ -372,7 +351,7 @@ returnstmt
    ;
 
 datastmt
-   : DATA datum+ (COMMA datum+)*
+   : DATA datum+ (',' datum+)*
    ;
 
 readstmt
@@ -420,35 +399,31 @@ lliststmt
 //     ;
 
 inputstmt1
-   : INPUT (STRINGLITERAL ';')? varlist
+   : INPUT ((STRINGLITERAL ';') | ('#' DEVICE_CASSETTE ','))? varlist
    ;
-
-inputstmt2
-    : INPUT HASH DEVICE_CASSETTE COMMA (vardecl (COMMA vardecl)*)
-    ;
 
 printstmt
    : PRINT char_expr?
    ;
 
 printtabstmt
-   : PRINT TAB LPAREN expr RPAREN SEMICOLON expr
+   : PRINT TAB '(' expr ')' ';' expr
    ;
 
 printhashstmt
-   : PRINT HASH (DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expr 
+   : PRINT '#' (DEVICE_CASSETTE | DEVICE_PRINTER) ',' expr 
    ;
 
 printatstmt
-   : PRINT AT expr COMMA expr 
+   : PRINT '@' expr ',' expr 
    ;
 
 setstmt
-   : SET LPAREN expr COMMA expr (COMMA expr)+ RPAREN
+   : SET '(' expr ',' expr (',' expr)+ ')'
    ;
    
 resetstmt
-   : RESET LPAREN expr COMMA expr RPAREN
+   : RESET '(' expr ',' expr ')'
    ;
 
 clsstmt
@@ -460,7 +435,7 @@ execstmt
    ;
 
 pokestmt
-   : POKE expr COMMA expr
+   : POKE expr ',' expr
    ;
 
 motorstmt
@@ -472,7 +447,7 @@ audiostmt
    ;
 
 soundstmt
-   : SOUND expr COMMA expr
+   : SOUND expr ',' expr
    ;   
 
 cloadstmt
@@ -480,15 +455,15 @@ cloadstmt
    ; 
 
 cloadmstmt
-   : CLOAD expr COMMA expr
+   : CLOAD expr ',' expr
    ; 
 
 csavestmt
-   : CSAVE expr COMMA expr
+   : CSAVE expr ',' expr
    ;
 
 csavemstmt
-   : CSAVEM expr COMMA expr COMMA expr COMMA expr
+   : CSAVEM expr ',' expr ',' expr ',' expr
    ; 
 
 skipfstmt
@@ -496,11 +471,11 @@ skipfstmt
    ; 
 
 openstmt
-   : OPEN (OPEN_INPUT | OPEN_OUTPUT ) COMMA HASH (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) COMMA expr
+   : OPEN ('I' | 'O' ) ',' '#' (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) ',' expr
    ; 
 
 closestmt
-   : CLOSE HASH (DEVICE_CASSETTE)?
+   : CLOSE '#' (DEVICE_CASSETTE)?
    ; 
 
 /******************************Lexer***************************************/   
@@ -769,70 +744,6 @@ REM //comment
 
 /*******************small tokens**********************/
 
-DOLLAR
-   : '$'
-   ;
-
-AT
-   : '@'
-   ;
-
-PERCENT
-   : '%'
-   ;
-
-ADD
-   : '+'
-   ;
-
-SUBTRACT
-   : '-'
-   ;
-
-MULTIPLY
-   : '*'
-   ;
-
-DIVIDE
-   : '/'
-   ;
-
-GT
-   : '>'
-   ;
-
-LT
-   : '<'
-   ;
-
-EQ
-   : '='
-   ;
-
-COMMA
-   : ','
-   ;
-
-INPUT_COMMA
-   : ',' | ';'
-   ;
-
-SEMICOLON
-   : ';'
-   ;
-
-COLON
-   : ':'
-   ;
-
-EXP
-   : '^'
-   ;
-
-HASH
-   : '#'
-   ;
-
 OR
    : 'OR'
    ;
@@ -844,14 +755,6 @@ AND
 NOT
    : 'NOT'
    ;
-
-LPAREN
-    : '('
-    ;
-
-RPAREN
-    : ')'
-    ;
 
 DIGIT
    : '0'..'9'
@@ -867,6 +770,14 @@ DATUM //i think this should be actually much more inclusive - todo redo rule
 
 STRINGLITERAL
    : '"' ~["\r\n]* '"'
+   ;
+
+NUMBER
+   : (DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT+) | DIGIT* '.' DIGIT* | LINENUMBER)
+   ;
+
+LINENUMBER
+   : DIGIT+
    ;
 
 WS
@@ -897,18 +808,3 @@ fragment
 DEVICE_RS232
     : '-3'
     ;
-
-fragment
-OPEN_INPUT
-   : '"I"'
-   ;
-
-fragment
-OPEN_OUTPUT
-   : '"O"'
-   ;
-
-fragment
-EXP_CHAR
-   : 'E'
-   ;

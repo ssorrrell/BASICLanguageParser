@@ -45,24 +45,6 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLine([NotNull] ColorBasicParser.LineContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.linenumber"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitLinenumber([NotNull] ColorBasicParser.LinenumberContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.number"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNumber([NotNull] ColorBasicParser.NumberContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSubstatement([NotNull] ColorBasicParser.SubstatementContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -165,29 +147,17 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitVar_string([NotNull] ColorBasicParser.Var_stringContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.varname"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.vardecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitVarname([NotNull] ColorBasicParser.VarnameContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.varsuffix"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitVarsuffix([NotNull] ColorBasicParser.VarsuffixContext context);
+	Result VisitVardecl([NotNull] ColorBasicParser.VardeclContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.varlist"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitVarlist([NotNull] ColorBasicParser.VarlistContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.vardecl"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitVardecl([NotNull] ColorBasicParser.VardeclContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.variableassignment"/>.
 	/// </summary>
@@ -464,12 +434,6 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitInputstmt1([NotNull] ColorBasicParser.Inputstmt1Context context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.inputstmt2"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitInputstmt2([NotNull] ColorBasicParser.Inputstmt2Context context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.printstmt"/>.
 	/// </summary>

@@ -52,36 +52,6 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitLine([NotNull] ColorBasicParser.LineContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.linenumber"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLinenumber([NotNull] ColorBasicParser.LinenumberContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.linenumber"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLinenumber([NotNull] ColorBasicParser.LinenumberContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.number"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterNumber([NotNull] ColorBasicParser.NumberContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.number"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitNumber([NotNull] ColorBasicParser.NumberContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSubstatement([NotNull] ColorBasicParser.SubstatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.substatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSubstatement([NotNull] ColorBasicParser.SubstatementContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -254,25 +224,15 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitVar_string([NotNull] ColorBasicParser.Var_stringContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.varname"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.vardecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterVarname([NotNull] ColorBasicParser.VarnameContext context);
+	void EnterVardecl([NotNull] ColorBasicParser.VardeclContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.varname"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.vardecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitVarname([NotNull] ColorBasicParser.VarnameContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.varsuffix"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterVarsuffix([NotNull] ColorBasicParser.VarsuffixContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.varsuffix"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitVarsuffix([NotNull] ColorBasicParser.VarsuffixContext context);
+	void ExitVardecl([NotNull] ColorBasicParser.VardeclContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.varlist"/>.
 	/// </summary>
@@ -283,16 +243,6 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitVarlist([NotNull] ColorBasicParser.VarlistContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.vardecl"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterVardecl([NotNull] ColorBasicParser.VardeclContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.vardecl"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitVardecl([NotNull] ColorBasicParser.VardeclContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.variableassignment"/>.
 	/// </summary>
@@ -753,16 +703,6 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitInputstmt1([NotNull] ColorBasicParser.Inputstmt1Context context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.inputstmt2"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInputstmt2([NotNull] ColorBasicParser.Inputstmt2Context context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.inputstmt2"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInputstmt2([NotNull] ColorBasicParser.Inputstmt2Context context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.printstmt"/>.
 	/// </summary>

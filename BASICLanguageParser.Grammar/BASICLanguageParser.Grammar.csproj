@@ -4,7 +4,7 @@
    </PropertyGroup>   
 
    <ItemGroup>
-     <Antlr4 Include="ColorBasic.g4">
+     <Antlr4 Include="TestBasic.g4">
        <Package>BASICLanguageParser</Package>
        <Visitor>true</Visitor>
        <Error>false</Error>

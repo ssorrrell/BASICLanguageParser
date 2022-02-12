@@ -1,0 +1,10 @@
+T__0=1
+LET=2
+COMMENT=3
+REM=4
+DIGIT_SEQUENCE=5
+WS=6
+EOL=7
+':'=1
+'LET'=2
+'\r\n'=7

@@ -1,0 +1,9 @@
+10 ' comment 1
+20 REM comment 2
+30 LET 45
+40 100
+50 5
+60 1000
+70 10000
+80 100000
+90 LET 1: LET 2: LET 3: LET 4

@@ -48,13 +48,13 @@ prog
 
 // a line starts with an integer
 line
-   : LINENUMBER (statement | COMMENT) (':' (statement | COMMENT))*
+   : LINE_NUMBER (statement | COMMENT) (':' (statement | COMMENT))*
    ;
-
 
 /****************************master statement table*************************************/
 statement
-    : returnstmt
+    : letstmt
+    | returnstmt
     | restorestmt
     | printstmt
     | nextstmt
@@ -67,7 +67,7 @@ statement
     | gotostmt
     | gosubstmt
     | readstmt
-    | datastmt
+   //  | datastmt
     | printstmt
     | printtabstmt
     | printhashstmt
@@ -94,14 +94,13 @@ statement
     | skipfstmt
     | openstmt
     | closestmt
-    | letstmt
    ;
 
 /****************************master function table*************************************/
 // func_
 //    : STRINGLITERAL
 //    | signed_number
-//    | vardecl
+//    | variableDeclaration
 //    | chrfunc
 //    | lenfunc
 //    | strfunc
@@ -121,7 +120,7 @@ statement
 //    | pointfunc
 //    | memfunc
 //    | usrfunc
-//    | ('(' expr ')')
+//    | ('(' expression ')')
 //    ;
 
 // exprs and such
@@ -149,22 +148,25 @@ statement
 //    : addingExpression ((relop) addingExpression)?
 //    ;
 
-// expr
+// expression
 //    : func_
 //    | (relationalExpression ((AND | OR) relationalExpression)*)
 //    ;
 
-char_expr
-   : STRINGLITERAL
+characterExpression
+   : characterExpression '+' characterExpression
+   | VARIABLE_STRING
+   | STRINGLITERAL
    ;
 
-expr
-   : '-' expr                          # UMINUS
-   | expr addop expr                   # ADDOPGRP
-   | expr mulop expr                   # MULOPGRP
-   | expr ( <assoc=right> '^' expr )   # EXPONENT
-   | '(' expr ')'                      # PARENGRP
-   | NUMBER                            # DOUBLE
+expression
+   : '-' expression
+   | expression addop expression
+   | expression mulop expression
+   | expression ( <assoc=right> '^' expression )
+   | '(' expression ')'
+   | VARIABLE_NUMBER
+   | NUMBER
    ;
 
 addop : '+' | '-' ;
@@ -193,86 +195,78 @@ lte
     : '<' '='
     ;
 
-var_number
-   : LETTER (LETTER | DIGIT)*
+variableDeclaration
+   : VARIABLE_NUMBER ('(' expressionList ')')*
    ;
 
-var_string
-   : LETTER (LETTER | DIGIT)* '$'
+variableList
+   : variableDeclaration (',' variableDeclaration)*
    ;
 
-vardecl
-   : var_number ('(' exprlist ')')*
+variableAssignment
+   : variableDeclaration '=' expression
    ;
 
-varlist
-   : vardecl (',' vardecl)*
+expressionList
+   : expression (',' expression)*
    ;
 
-variableassignment
-   : vardecl '=' expr
-   ;
-
-exprlist
-   : expr (',' expr)*
-   ;
-
-datum
-   : NUMBER
-   | DATUM
-   ;
+// datum
+//    : NUMBER
+//    | DATUM
+//    ;
 
 /*******************functions**********************/
 absfunc
-   : ABS '(' expr ')'
+   : ABS '(' expression ')'
    ;
 
 ascfunc
-   : ASC '(' expr ')'
+   : ASC '(' expression ')'
    ;
 
 sgnfunc
-   : SGN '(' expr ')'
+   : SGN '(' expression ')'
    ;
 
 intfunc
-   : INT '(' expr ')'
+   : INT '(' expression ')'
    ;
 
 sinfunc
-   : SIN '(' expr ')'
+   : SIN '(' expression ')'
    ;
 
 rndfunc
-   : RND '(' expr ')'
+   : RND '(' expression ')'
    ;
 
 lenfunc
-   : LEN '(' expr ')'
+   : LEN '(' expression ')'
    ;
 
 valfunc
-   : VAL '(' expr ')'
+   : VAL '(' expression ')'
    ;
 
 chrfunc
-   : CHR '(' expr ')'
+   : CHR '(' expression ')'
    ;
 
 midfunc
-   : MID '(' expr ',' expr ',' expr ')'
+   : MID '(' expression ',' expression ',' expression ')'
    ;
 
 leftfunc
-   : LEFT '(' expr ',' expr ')'
+   : LEFT '(' expression ',' expression ')'
    ;
 
 rightfunc
-   : RIGHT '(' expr ',' expr ')'
+   : RIGHT '(' expression ',' expression ')'
    ; 
 
 strfunc
-   : STR '(' expr ')'
+   : STR '(' expression ')'
    ;
 
 inkeyfunc
@@ -280,19 +274,19 @@ inkeyfunc
    ;
 
 joystkfunc
-   : JOYSTK '(' expr ')'
+   : JOYSTK '(' expression ')'
    ;
 
 eoffunc
-   : EOFTOKEN '(' expr ')'
+   : EOFTOKEN '(' expression ')'
    ;
 
 peekfunc
-   : PEEK '(' expr ')'
+   : PEEK '(' expression ')'
    ;
 
 pointfunc
-   : POINT '(' expr ',' expr ')'
+   : POINT '(' expression ',' expression ')'
    ;
 
 memfunc
@@ -300,62 +294,62 @@ memfunc
    ; 
 
 usrfunc
-   : USR DIGIT '(' expr ')'
+   : USR DIGIT '(' expression ')'
    ;
 
 /*******************statements**********************/
 
 letstmt
-   : LET? variableassignment
+   : LET? variableAssignment
    ;
 
 dimstmt
-   : DIM varlist
+   : DIM variableList
    ;
 
 // for stmt puts the for, the statment, and the next on 3 lines.  It needs "nextstmt"
 forstmt
-   : FOR vardecl '=' expr TO expr (STEP expr)?
+   : FOR variableDeclaration '=' expression TO expression (STEP expression)?
    ;
 
 nextstmt
-   : NEXT (varlist)?
+   : NEXT (variableList)?
    ;
 
 ifstmt1
-   : IF expr THEN? ((statement)+ | LINENUMBER)
+   : IF expression THEN? (statement+ | LINE_NUMBER)
    ;
 
 ifstmt2
-   : IF expr THEN ((statement)+ | LINENUMBER) ELSE ((statement)+ | LINENUMBER)
+   : IF expression THEN (statement+ | LINE_NUMBER) ELSE (statement+ | LINE_NUMBER)
    ;
 
 gotostmt
-   : GO TO LINENUMBER
+   : GO TO LINE_NUMBER
    ;
 
 gosubstmt
-   : GO SUB LINENUMBER
+   : GO SUB LINE_NUMBER
    ;
 
 ongotostmt
-   : ON expr GO TO LINENUMBER (',' LINENUMBER)*
+   : ON expression GO TO LINE_NUMBER (',' LINE_NUMBER)*
    ;
 
 ongosubstmt
-   : ON expr GO SUB LINENUMBER (',' LINENUMBER)*
+   : ON expression GO SUB LINE_NUMBER (',' LINE_NUMBER)*
    ;
 
 returnstmt
    : RETURN
    ;
 
-datastmt
-   : DATA datum+ (',' datum+)*
-   ;
+// datastmt
+//    : DATA datum+ (',' datum+)*
+//    ;
 
 readstmt
-   : READ varlist
+   : READ variableList
    ;
 
 restorestmt
@@ -399,43 +393,43 @@ lliststmt
 //     ;
 
 inputstmt1
-   : INPUT ((STRINGLITERAL ';') | ('#' DEVICE_CASSETTE ','))? varlist
+   : INPUT ((STRINGLITERAL ';') | ('#' DEVICE_CASSETTE ','))? variableList
    ;
 
 printstmt
-   : PRINT char_expr?
+   : PRINT characterExpression?
    ;
 
 printtabstmt
-   : PRINT TAB '(' expr ')' ';' expr
+   : PRINT TAB '(' expression ')' ';' expression
    ;
 
 printhashstmt
-   : PRINT '#' (DEVICE_CASSETTE | DEVICE_PRINTER) ',' expr 
+   : PRINT '#' (DEVICE_CASSETTE | DEVICE_PRINTER) ',' expression 
    ;
 
 printatstmt
-   : PRINT '@' expr ',' expr 
+   : PRINT '@' expression ',' expression 
    ;
 
 setstmt
-   : SET '(' expr ',' expr (',' expr)+ ')'
+   : SET '(' expression ',' expression (',' expression)+ ')'
    ;
    
 resetstmt
-   : RESET '(' expr ',' expr ')'
+   : RESET '(' expression ',' expression ')'
    ;
 
 clsstmt
-   : CLS expr
+   : CLS expression
    ;
 
 execstmt
-   : EXEC expr
+   : EXEC expression
    ;
 
 pokestmt
-   : POKE expr ',' expr
+   : POKE expression ',' expression
    ;
 
 motorstmt
@@ -447,31 +441,31 @@ audiostmt
    ;
 
 soundstmt
-   : SOUND expr ',' expr
+   : SOUND expression ',' expression
    ;   
 
 cloadstmt
-   : CLOAD expr
+   : CLOAD expression
    ; 
 
 cloadmstmt
-   : CLOAD expr ',' expr
+   : CLOAD expression ',' expression
    ; 
 
 csavestmt
-   : CSAVE expr ',' expr
+   : CSAVE expression ',' expression
    ;
 
 csavemstmt
-   : CSAVEM expr ',' expr ',' expr ',' expr
+   : CSAVEM expression ',' expression ',' expression ',' expression
    ; 
 
 skipfstmt
-   : SKIPF expr
+   : SKIPF expression
    ; 
 
 openstmt
-   : OPEN ('I' | 'O' ) ',' '#' (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) ',' expr
+   : OPEN ('I' | 'O' ) ',' '#' (DEVICE_KEYBOARD | DEVICE_CASSETTE | DEVICE_PRINTER) ',' expression
    ; 
 
 closestmt
@@ -756,8 +750,17 @@ NOT
    : 'NOT'
    ;
 
-DIGIT
-   : '0'..'9'
+
+VARIABLE_NUMBER
+   : LETTER (LETTER | DIGIT)*
+   ;
+
+VARIABLE_STRING
+   : VARIABLE_NUMBER '$'
+   ;
+
+DIGIT_SEQUENCE
+   : DIGIT+
    ;
 
 LETTER
@@ -773,13 +776,13 @@ STRINGLITERAL
    ;
 
 NUMBER
-   : (DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT+) | DIGIT* '.' DIGIT* | LINENUMBER)
+   : (DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT_SEQUENCE) | DIGIT* '.' DIGIT* | DIGIT_SEQUENCE)
    ;
 
-LINENUMBER
-   : DIGIT+
+LINE_NUMBER
+   : DIGIT_SEQUENCE
    ;
-
+   
 WS
    : [ \t]+ -> channel (HIDDEN)
    ;
@@ -808,3 +811,8 @@ fragment
 DEVICE_RS232
     : '-3'
     ;
+
+fragment
+DIGIT
+   : [0-9]
+   ;

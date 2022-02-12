@@ -26,7 +26,7 @@ namespace BASICLanguageParser.UT
             string test = "A=A+5";
             //int result = RunExpression(test);
             SetupLexerParser(test);
-            ColorBasicParser.VariableassignmentContext varAssignContext = parser.variableassignment();
+            ColorBasicParser.VariableAssignmentContext varAssignContext = parser.variableAssignment();
             int result = VisitNode(varAssignContext);
             Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
 

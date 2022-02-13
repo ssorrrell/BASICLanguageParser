@@ -2,18 +2,17 @@
 grammar TestBasic;
 
 
-/******************************Parser***************************************/
+/******************************Parser**************************************/
 prog
    : line+ EOF
    ;
 
 // a line starts with an integer
 line
-   : DIGIT_SEQUENCE COMMENT  (EOL | EOF)+
-   | DIGIT_SEQUENCE statement  (EOL | EOF)
+   : DIGIT_SEQUENCE (statement | COMMENT_BLOCK) (':' (statement | COMMENT_BLOCK))* (EOL | EOF) //comments are removed. this is what a comment line looks like
    ;
 
-/************************master statement table*******************************/
+/************************master statement table****************************/
 statement
     : letstmt
     ;
@@ -21,7 +20,7 @@ statement
 /******************************statements*********************************/
 
 letstmt
-   : LET? DIGIT_SEQUENCE
+   : LET? DIGIT_SEQUENCE EQ DIGIT_SEQUENCE
    ;
 
 /******************************Lexer***************************************/
@@ -29,21 +28,20 @@ LET //assign variables
    : 'LET'
    ;
 
-COMMENT //match comment stuff '\n'
-    : REM .*? (EOL | EOF)-> skip
-    ;
+EQ //equals sign
+   : '='
+   ;
 
-REM //comment
-    : '\''
-    | 'REM'
-    ;
+COMMENT_BLOCK
+   : COMMENT
+   ;
+
+SKIP_
+   : ( SPACES ) -> channel (HIDDEN)
+   ;
 
 DIGIT_SEQUENCE
    : DIGIT+
-   ;
-
-WS
-   : [ \t]+ -> channel (HIDDEN)
    ;
 
 EOL
@@ -51,9 +49,20 @@ EOL
    ;
 
 /******************************Lexer fragments********************************/
+// fragments are not available to the parser
 
 fragment
-DIGIT
+COMMENT //match: {comment stuff '\r\n'} and leave \r\n in the stream
+    : ('\'' | 'REM') ~[\r\n]*
+    ;
+
+fragment
+SPACES //match sapce and tab
+ : [ \t]+
+ ;
+
+fragment
+DIGIT //match zero decimal digit
    : [0-9]
    ;
 

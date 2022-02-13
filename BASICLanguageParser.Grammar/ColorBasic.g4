@@ -48,7 +48,7 @@ prog
 
 // a line starts with an integer
 line
-   : LINE_NUMBER (statement | COMMENT) (':' (statement | COMMENT))*
+   : DIGIT_SEQUENCE (statement | COMMENT_BLOCK) (':' (statement | COMMENT_BLOCK))* (EOL | EOF) //comments are removed. this is what a comment line looks like
    ;
 
 /****************************master statement table*************************************/
@@ -294,7 +294,7 @@ memfunc
    ; 
 
 usrfunc
-   : USR DIGIT '(' expression ')'
+   : USR SINGLE_DIGIT '(' expression ')'
    ;
 
 /*******************statements**********************/
@@ -728,15 +728,35 @@ CLOSE //close acces to the specified device
     : 'CLOSE'
     ; 
 
-COMMENT //match comment stuff '\n'
-    : REM .*? '\r'? '\n' -> channel(2)
-    ;
-
-REM //comment
-    : '\'' | 'REM'
-    ;
-
 /*******************small tokens**********************/
+
+LINE_NUMBER
+   : DIGIT_SEQUENCE
+   ;
+   
+DIGIT_SEQUENCE
+   : DIGIT+
+   ;
+
+SINGLE_DIGIT
+   : DIGIT
+   ;
+   
+DEVICE_KEYBOARD
+    : '0'
+    ;
+
+DEVICE_CASSETTE
+    : '-1'
+    ;
+
+DEVICE_PRINTER
+    : '-2'
+    ;
+
+DEVICE_RS232
+    : '-3'
+    ;
 
 OR
    : 'OR'
@@ -750,17 +770,12 @@ NOT
    : 'NOT'
    ;
 
-
 VARIABLE_NUMBER
    : LETTER (LETTER | DIGIT)*
    ;
 
 VARIABLE_STRING
    : VARIABLE_NUMBER '$'
-   ;
-
-DIGIT_SEQUENCE
-   : DIGIT+
    ;
 
 LETTER
@@ -779,40 +794,30 @@ NUMBER
    : (DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT_SEQUENCE) | DIGIT* '.' DIGIT* | DIGIT_SEQUENCE)
    ;
 
-LINE_NUMBER
-   : DIGIT_SEQUENCE
-   ;
-   
-WS
-   : [ \t]+ -> channel (HIDDEN)
+COMMENT_BLOCK
+   : COMMENT
    ;
 
- EOL
-   : [\r\n] -> channel (HIDDEN)
-   ;  
+SKIP_
+   : ( SPACES ) -> channel (HIDDEN)
+   ;
+
+EOL
+   : '\r'? '\n'
+   ;
 
  /*******************fragments**********************/  
 fragment
-DEVICE_KEYBOARD
-    : '0'
+COMMENT //match: {comment stuff '\r\n'} and leave \r\n in the stream
+    : ('\'' | 'REM') ~[\r\n]*
     ;
 
 fragment
-DEVICE_CASSETTE
-    : '-1'
-    ;
+SPACES //match sapce and tab
+ : [ \t]+
+ ;
 
 fragment
-DEVICE_PRINTER
-    : '-2'
-    ;
-
-fragment
-DEVICE_RS232
-    : '-3'
-    ;
-
-fragment
-DIGIT
+DIGIT //match zero decimal digit
    : [0-9]
    ;

@@ -9,7 +9,17 @@
        <Visitor>true</Visitor>
        <Error>false</Error>
        <Listener>true</Listener>    
-	   <AntOutDir>..\BASICLanguageParser</AntOutDir>	   
+	   <AntOutDir>..\BASICLanguageParser</AntOutDir>
+     </Antlr4>
+   </ItemGroup>
+
+   <ItemGroup>
+     <Antlr4 Include="ColorBasic.g4">
+       <Package>BASICLanguageParser</Package>
+       <Visitor>true</Visitor>
+       <Error>false</Error>
+       <Listener>true</Listener>    
+	   <AntOutDir>..\BASICLanguageParser</AntOutDir>
      </Antlr4>
    </ItemGroup>
 

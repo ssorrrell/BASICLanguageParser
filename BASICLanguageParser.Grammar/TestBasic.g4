@@ -9,7 +9,8 @@ prog
 
 // a line starts with an integer
 line
-   : DIGIT_SEQUENCE (statement | COMMENT) (':' (statement | COMMENT))* (EOL | EOF)
+   : DIGIT_SEQUENCE COMMENT  (EOL | EOF)+
+   | DIGIT_SEQUENCE statement  (EOL | EOF)
    ;
 
 /************************master statement table*******************************/
@@ -45,11 +46,12 @@ WS
    : [ \t]+ -> channel (HIDDEN)
    ;
 
- EOL
-   : '\r\n'
-   ; 
+EOL
+   : '\r'? '\n'
+   ;
 
 /******************************Lexer fragments********************************/
+
 fragment
 DIGIT
    : [0-9]

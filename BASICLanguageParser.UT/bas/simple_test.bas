@@ -1,4 +1,5 @@
 10 ' comment 1
+15 300
 20 REM comment 2
 30 LET 45
 40 100

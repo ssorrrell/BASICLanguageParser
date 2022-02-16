@@ -19,8 +19,16 @@ namespace BASICLanguageParser.UT
 
         [Test]
         public void SimpleTest()
-        {
+        {   //tests line number, LET token, math expressions, variables names
             var filename = "simple_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void StringExpressionTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "string_expression_test.bas";
             var result = RunProg(filename);
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }

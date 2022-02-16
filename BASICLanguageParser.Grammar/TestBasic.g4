@@ -21,9 +21,10 @@ expression
    : expression (MULTIPLICATION | DIVISION) expression
    | expression (ADDITION | SUBTRACTION) expression
    | expression (<assoc=right> '^' expression)
-   | (ADDITION | SUBTRACTION) expression
+   | (<assoc=right> (ADDITION | SUBTRACTION) expression)
    | VARIABLE_NUMBER_ARRAY
    | VARIABLE_NUMBER
+   | DIGIT_SEQUENCE
    | NUMBER
    | '(' expression ')'
    ;
@@ -38,7 +39,8 @@ characterExpression
 /******************************statements*********************************/
 
 letstmt
-   : LET? (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ NUMBER
+   : LET? (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression
+   | LET? (VARIABLE_STRING_ARRAY | VARIABLE_STRING) EQ characterExpression
    ;
 
 /******************************Lexer***************************************/
@@ -95,7 +97,7 @@ DIGIT_SEQUENCE
    ;
 
 NUMBER
-   : (DIGIT+ | DIGIT* '.' DIGIT* | DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT+))
+   : ( DIGIT* '.' DIGIT* | DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT+) )
    ;   
 
 COMMENT_BLOCK

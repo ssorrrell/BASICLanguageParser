@@ -62,6 +62,26 @@ public interface ITestBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitStatement([NotNull] TestBasicParser.StatementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExpression([NotNull] TestBasicParser.ExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExpression([NotNull] TestBasicParser.ExpressionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.characterExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCharacterExpression([NotNull] TestBasicParser.CharacterExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.characterExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCharacterExpression([NotNull] TestBasicParser.CharacterExpressionContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

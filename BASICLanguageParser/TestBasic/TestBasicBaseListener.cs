@@ -73,6 +73,30 @@ public partial class TestBasicBaseListener : ITestBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitStatement([NotNull] TestBasicParser.StatementContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.expression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterExpression([NotNull] TestBasicParser.ExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.expression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitExpression([NotNull] TestBasicParser.ExpressionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.characterExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCharacterExpression([NotNull] TestBasicParser.CharacterExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.characterExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCharacterExpression([NotNull] TestBasicParser.CharacterExpressionContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

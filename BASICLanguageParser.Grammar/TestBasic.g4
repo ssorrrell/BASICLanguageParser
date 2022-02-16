@@ -17,10 +17,28 @@ statement
     : letstmt
     ;
 
+expression
+   : expression (MULTIPLICATION | DIVISION) expression
+   | expression (ADDITION | SUBTRACTION) expression
+   | expression (<assoc=right> '^' expression)
+   | (ADDITION | SUBTRACTION) expression
+   | VARIABLE_NUMBER_ARRAY
+   | VARIABLE_NUMBER
+   | NUMBER
+   | '(' expression ')'
+   ;
+
+characterExpression
+   : characterExpression ADDITION characterExpression
+   | VARIABLE_STRING_ARRAY
+   | VARIABLE_STRING
+   | STRINGLITERAL
+   ;
+
 /******************************statements*********************************/
 
 letstmt
-   : LET? DIGIT_SEQUENCE EQ DIGIT_SEQUENCE
+   : LET? (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ NUMBER
    ;
 
 /******************************Lexer***************************************/
@@ -32,16 +50,60 @@ EQ //equals sign
    : '='
    ;
 
+ADDITION
+   : '+'
+   ;
+
+SUBTRACTION
+   : '-'
+   ;
+
+MULTIPLICATION
+   : '*'
+   ;
+   
+DIVISION
+   : '/'
+   ;
+
+VARIABLE_NUMBER
+   : LETTER (LETTER | DIGIT)*
+   ;
+
+VARIABLE_STRING
+   : VARIABLE_NUMBER '$'
+   ;
+
+VARIABLE_NUMBER_ARRAY
+   : VARIABLE_NUMBER '(' DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* ')'
+   ;
+
+VARIABLE_STRING_ARRAY
+   : VARIABLE_STRING '(' DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* ')'
+   ;
+
+LETTER
+   : [A-Z]
+   ;
+
+STRINGLITERAL
+   : '"' ~["\r\n]* '"'
+   ;
+
+DIGIT_SEQUENCE
+   : DIGIT+
+   ;
+
+NUMBER
+   : (DIGIT+ | DIGIT* '.' DIGIT* | DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT+))
+   ;   
+
 COMMENT_BLOCK
    : COMMENT
    ;
 
 SKIP_
    : ( SPACES ) -> channel (HIDDEN)
-   ;
-
-DIGIT_SEQUENCE
-   : DIGIT+
    ;
 
 EOL

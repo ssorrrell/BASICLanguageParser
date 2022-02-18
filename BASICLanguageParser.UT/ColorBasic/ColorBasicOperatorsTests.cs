@@ -25,15 +25,15 @@ namespace BASICLanguageParser.UT
 
             string test = "A=A+5";
             //int result = RunExpression(test);
-            SetupLexerParser(test);
+/*            SetupLexerParser(test);
             ColorBasicParser.VariableAssignmentContext varAssignContext = parser.variableAssignment();
             int result = VisitNode(varAssignContext);
-            Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
+            Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));*/
 
             test = "I = I / 12 * .01";
             SetupLexerParser(test);
             ColorBasicParser.LetstmtContext letStmtContext = parser.letstmt();
-            result = VisitNode(letStmtContext);
+            int result = VisitNode(letStmtContext);
             Assert.AreEqual(0, result, string.Format(ERROR_TEMPLATE, functionName, test));
 
             test = "30 I=I/12*.01";

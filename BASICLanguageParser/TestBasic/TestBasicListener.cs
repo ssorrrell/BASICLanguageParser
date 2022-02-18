@@ -62,6 +62,36 @@ public interface ITestBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitStatement([NotNull] TestBasicParser.StatementContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.gotostmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGotostmt([NotNull] TestBasicParser.GotostmtContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.gotostmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGotostmt([NotNull] TestBasicParser.GotostmtContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.gosubstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGosubstmt([NotNull] TestBasicParser.GosubstmtContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.gosubstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGosubstmt([NotNull] TestBasicParser.GosubstmtContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLetstmt([NotNull] TestBasicParser.LetstmtContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLetstmt([NotNull] TestBasicParser.LetstmtContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TestBasicParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -81,15 +111,5 @@ public interface ITestBasicListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitCharacterExpression([NotNull] TestBasicParser.CharacterExpressionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLetstmt([NotNull] TestBasicParser.LetstmtContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLetstmt([NotNull] TestBasicParser.LetstmtContext context);
 }
 } // namespace BASICLanguageParser

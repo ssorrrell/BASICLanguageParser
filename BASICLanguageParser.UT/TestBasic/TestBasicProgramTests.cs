@@ -33,6 +33,14 @@ namespace BASICLanguageParser.UT
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
+        [Test]
+        public void GotoGosubTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "goto_gosub_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+        
         /*************************************Internal****************************************/
 
         private ErrorResult RunProg(string filename)

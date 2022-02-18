@@ -153,25 +153,24 @@ statement
 //    | (relationalExpression ((AND | OR) relationalExpression)*)
 //    ;
 
+expression
+   : expression (MULTIPLICATION | DIVISION) expression
+   | expression (ADDITION | SUBTRACTION) expression
+   | expression (<assoc=right> '^' expression)
+   | (<assoc=right> (ADDITION | SUBTRACTION) expression)
+   | VARIABLE_NUMBER_ARRAY
+   | VARIABLE_NUMBER
+   | DIGIT_SEQUENCE
+   | NUMBER
+   | '(' expression ')'
+   ;
+
 characterExpression
-   : characterExpression '+' characterExpression
+   : characterExpression ADDITION characterExpression
+   | VARIABLE_STRING_ARRAY
    | VARIABLE_STRING
    | STRINGLITERAL
    ;
-
-expression
-   : '-' expression
-   | expression addop expression
-   | expression mulop expression
-   | expression ( <assoc=right> '^' expression )
-   | '(' expression ')'
-   | VARIABLE_NUMBER
-   | NUMBER
-   ;
-
-addop : '+' | '-' ;
-
-mulop : '*' | '/'  ;
 
 relop
    : gte
@@ -195,21 +194,21 @@ lte
     : '<' '='
     ;
 
-variableDeclaration
-   : VARIABLE_NUMBER ('(' expressionList ')')*
-   ;
+// variableDeclaration
+//    : VARIABLE_NUMBER ('(' expressionList ')')*
+//    ;
 
 variableList
-   : variableDeclaration (',' variableDeclaration)*
+   : (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER | VARIABLE_STRING_ARRAY | VARIABLE_STRING) (',' (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER | VARIABLE_STRING_ARRAY | VARIABLE_STRING))*
    ;
 
-variableAssignment
-   : variableDeclaration '=' expression
-   ;
+// variableAssignment
+//    : variableDeclaration '=' expression
+//    ;
 
-expressionList
-   : expression (',' expression)*
-   ;
+// expressionList
+//    : expression (',' expression)*
+//    ;
 
 // datum
 //    : NUMBER
@@ -300,7 +299,8 @@ usrfunc
 /*******************statements**********************/
 
 letstmt
-   : LET? variableAssignment
+   : LET? (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression
+   | LET? (VARIABLE_STRING_ARRAY | VARIABLE_STRING) EQ characterExpression
    ;
 
 dimstmt
@@ -309,7 +309,7 @@ dimstmt
 
 // for stmt puts the for, the statment, and the next on 3 lines.  It needs "nextstmt"
 forstmt
-   : FOR variableDeclaration '=' expression TO expression (STEP expression)?
+   : FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) '=' expression TO expression (STEP expression)?
    ;
 
 nextstmt
@@ -317,27 +317,27 @@ nextstmt
    ;
 
 ifstmt1
-   : IF expression THEN? (statement+ | LINE_NUMBER)
+   : IF expression THEN? (statement | DIGIT_SEQUENCE)
    ;
 
 ifstmt2
-   : IF expression THEN (statement+ | LINE_NUMBER) ELSE (statement+ | LINE_NUMBER)
+   : IF expression THEN (statement | DIGIT_SEQUENCE) ELSE (statement | DIGIT_SEQUENCE)
    ;
 
 gotostmt
-   : GO TO LINE_NUMBER
+   : GO TO DIGIT_SEQUENCE
    ;
 
 gosubstmt
-   : GO SUB LINE_NUMBER
+   : GO SUB DIGIT_SEQUENCE
    ;
 
 ongotostmt
-   : ON expression GO TO LINE_NUMBER (',' LINE_NUMBER)*
+   : ON expression GO TO DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
    ;
 
 ongosubstmt
-   : ON expression GO SUB LINE_NUMBER (',' LINE_NUMBER)*
+   : ON expression GO SUB DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
    ;
 
 returnstmt
@@ -730,10 +730,6 @@ CLOSE //close acces to the specified device
 
 /*******************small tokens**********************/
 
-LINE_NUMBER
-   : DIGIT_SEQUENCE
-   ;
-   
 DIGIT_SEQUENCE
    : DIGIT+
    ;
@@ -770,12 +766,40 @@ NOT
    : 'NOT'
    ;
 
+EQ //equals sign
+   : '='
+   ;
+
+ADDITION
+   : '+'
+   ;
+
+SUBTRACTION
+   : '-'
+   ;
+
+MULTIPLICATION
+   : '*'
+   ;
+   
+DIVISION
+   : '/'
+   ;
+
 VARIABLE_NUMBER
    : LETTER (LETTER | DIGIT)*
    ;
 
 VARIABLE_STRING
    : VARIABLE_NUMBER '$'
+   ;
+
+VARIABLE_NUMBER_ARRAY
+   : VARIABLE_NUMBER '(' DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* ')'
+   ;
+
+VARIABLE_STRING_ARRAY
+   : VARIABLE_STRING '(' DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* ')'
    ;
 
 LETTER
@@ -791,8 +815,8 @@ STRINGLITERAL
    ;
 
 NUMBER
-   : (DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT_SEQUENCE) | DIGIT* '.' DIGIT* | DIGIT_SEQUENCE)
-   ;
+   : ( DIGIT* '.' DIGIT* | DIGIT* '.'? DIGIT* ('E' ('+' | '-')? DIGIT+) )
+   ; 
 
 COMMENT_BLOCK
    : COMMENT

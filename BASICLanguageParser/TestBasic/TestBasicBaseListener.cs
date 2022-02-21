@@ -97,18 +97,6 @@ public partial class TestBasicBaseListener : ITestBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitGosubstmt([NotNull] TestBasicParser.GosubstmtContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterLetstmt([NotNull] TestBasicParser.LetstmtContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitLetstmt([NotNull] TestBasicParser.LetstmtContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="TestBasicParser.expression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

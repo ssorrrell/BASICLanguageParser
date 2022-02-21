@@ -16,17 +16,26 @@ line
 statement
     : gotostmt
     | gosubstmt
+    | returnstmt
     | letstmt
     ;
 
 /******************************statements*********************************/
 
 gotostmt
-   : 'GO' 'TO' DIGIT_SEQUENCE
+   : ( GOTO_NUM
+   | ( GO TO_NUM )
+   | ( GO TO | GOTO ) DIGIT_SEQUENCE )
    ;
 
 gosubstmt
-   : 'GO' SUB DIGIT_SEQUENCE
+   : ( GOSUB_NUM
+   | ( GO SUB_NUM )
+   | ( GO SUB | GOSUB ) DIGIT_SEQUENCE )
+   ;
+
+returnstmt
+   : RETURN
    ;
 
 letstmt
@@ -55,22 +64,50 @@ characterExpression
    ;
 
 /******************************Lexer***************************************/
+GO //go
+   : 'GO'
+   ;
+
+GOTO //goto
+   : 'GOTO'
+   ;
+
+GOTO_NUM //goto500
+   : 'GOTO' DIGIT_SEQUENCE
+   ;
+
+TO //T0
+   : 'TO'
+   ;
+
+TO_NUM //TO500
+   : 'TO' DIGIT_SEQUENCE
+   ;
+
+GOSUB //gosub
+   : 'GOSUB'
+   ;
+
+GOSUB_NUM //gosub500
+   : 'GOSUB' DIGIT_SEQUENCE
+   ;
+
+SUB //sub
+   : 'SUB'
+   ;
+
+SUB_NUM //sub500
+   : 'SUB' DIGIT_SEQUENCE
+   ;
+
+RETURN //return
+   : 'RETURN'
+   ;
+
 LET //assign variables
    : 'LET'
    ;
 
-// GO //goto
-//    : 'GO'
-//    ;
-
-// TO //for to loop
-//    : 'TO'
-//    ;
-
-SUB //gosub
-   : 'SUB'
-   ;
-   
 EQ //equals sign
    : '='
    ;
@@ -130,7 +167,7 @@ NUMBER
 COMMENT_BLOCK
    : COMMENT
    ;
-
+   
 STRINGLITERAL
    : '"' ~["\r\n]* '"'
    ;

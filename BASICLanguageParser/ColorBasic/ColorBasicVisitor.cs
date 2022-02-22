@@ -63,29 +63,17 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitCharacterExpression([NotNull] ColorBasicParser.CharacterExpressionContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.relationalExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.relop"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRelop([NotNull] ColorBasicParser.RelopContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.neq"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNeq([NotNull] ColorBasicParser.NeqContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.gte"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitGte([NotNull] ColorBasicParser.GteContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.lte"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitLte([NotNull] ColorBasicParser.LteContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.variableList"/>.
 	/// </summary>
@@ -237,17 +225,47 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitNextstmt([NotNull] ColorBasicParser.NextstmtContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifstmt1"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifthenelsestmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIfstmt1([NotNull] ColorBasicParser.Ifstmt1Context context);
+	Result VisitIfthenelsestmt([NotNull] ColorBasicParser.IfthenelsestmtContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifstmt2"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifthenelsenumstmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIfstmt2([NotNull] ColorBasicParser.Ifstmt2Context context);
+	Result VisitIfthenelsenumstmt([NotNull] ColorBasicParser.IfthenelsenumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifthenstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfthenstmt([NotNull] ColorBasicParser.IfthenstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifnumelsenumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfnumelsenumstmt([NotNull] ColorBasicParser.IfnumelsenumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifnumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfnumstmt([NotNull] ColorBasicParser.IfnumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ifstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfstmt([NotNull] ColorBasicParser.IfstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.gotonumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGotonumstmt([NotNull] ColorBasicParser.GotonumstmtContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.gotostmt"/>.
 	/// </summary>
@@ -255,17 +273,35 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitGotostmt([NotNull] ColorBasicParser.GotostmtContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.gosubnumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGosubnumstmt([NotNull] ColorBasicParser.GosubnumstmtContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.gosubstmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitGosubstmt([NotNull] ColorBasicParser.GosubstmtContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ongotonumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOngotonumstmt([NotNull] ColorBasicParser.OngotonumstmtContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.ongotostmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitOngotostmt([NotNull] ColorBasicParser.OngotostmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.ongosubnumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOngosubnumstmt([NotNull] ColorBasicParser.OngosubnumstmtContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.ongosubstmt"/>.
 	/// </summary>

@@ -59,13 +59,23 @@ statement
     | printstmt
     | nextstmt
     | pokestmt
-    | ifstmt1
-    | ifstmt2
+    | ifthenelsestmt
+    | ifthenelsenumstmt
+    | ifthenstmt
+    | ifnumelsenumstmt
+    | ifnumstmt
+    | ifstmt
     | forstmt
     | inputstmt1
     | dimstmt
+    | gotonumstmt
     | gotostmt
+    | gosubnumstmt
     | gosubstmt
+    | ongotonumstmt
+    | ongotostmt
+    | ongosubnumstmt
+    | ongosubstmt
     | readstmt
    //  | datastmt
     | printstmt
@@ -169,30 +179,25 @@ characterExpression
    : characterExpression ADDITION characterExpression
    | VARIABLE_STRING_ARRAY
    | VARIABLE_STRING
+   | VARIABLE_NUMBER_ARRAY
+   | VARIABLE_NUMBER
    | STRINGLITERAL
    ;
 
+/************************relation operations****************************/
+
+relationalExpression
+   : expression relop expression
+   ;
+
 relop
-   : gte
-   | lte
-   | neq
-   | '='
-   | '>'
-   | '<'
+   : GTE
+   | LTE
+   | NEQ
+   | EQ
+   | LT
+   | GT
    ;
-
-neq
-   : '<' '>'
-   | '>' '<'
-   ;
-
-gte
-    : '>' '='
-    ;
-
-lte
-    : '<' '='
-    ;
 
 // variableDeclaration
 //    : VARIABLE_NUMBER ('(' expressionList ')')*
@@ -316,28 +321,62 @@ nextstmt
    : NEXT (variableList)?
    ;
 
-ifstmt1
-   : IF expression THEN? (statement | DIGIT_SEQUENCE)
+ifthenelsestmt //requires space around expression
+   : IF relationalExpression THEN (statement | DIGIT_SEQUENCE) ELSE (statement | DIGIT_SEQUENCE)
    ;
 
-ifstmt2
-   : IF expression THEN (statement | DIGIT_SEQUENCE) ELSE (statement | DIGIT_SEQUENCE)
+ifthenelsenumstmt //requires space around expression
+   : IF relationalExpression THEN (statement | DIGIT_SEQUENCE) ELSE_NUM
+   ;
+
+ifthenstmt //requires space around expression
+   : IF relationalExpression THEN (statement | DIGIT_SEQUENCE)
+   ;
+
+ifnumelsenumstmt //if expr then500else500
+   : IF relationalExpression (THEN_NUM_ELSE)
+   ;
+
+ifnumstmt //if expr then500
+   : IF relationalExpression (THEN_NUM)
+   ;
+
+ifstmt //if expr 500
+   : IF relationalExpression DIGIT_SEQUENCE
+   ;
+
+gotonumstmt //seperate from gotostmt in order to extract the line number
+   : ( GOTO_NUM
+   | ( GO TO_NUM ))
    ;
 
 gotostmt
-   : GO TO DIGIT_SEQUENCE
+   : ( ( GO TO | GOTO ) DIGIT_SEQUENCE )
+   ;
+
+gosubnumstmt //seperate from gosubstmt in order to extract the line number
+   : ( GOSUB_NUM
+   | ( GO SUB_NUM ) )
    ;
 
 gosubstmt
-   : GO SUB DIGIT_SEQUENCE
+   : ( ( GO SUB | GOSUB ) DIGIT_SEQUENCE )
    ;
 
-ongotostmt
-   : ON expression GO TO DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+ongotonumstmt //this definition requires a space around expression
+   : ON expression ( GOTO_NUM | GO TO_NUM ) (',' DIGIT_SEQUENCE)*
    ;
 
-ongosubstmt
-   : ON expression GO SUB DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+ongotostmt //this definition requires a space around expression
+   : ON expression ( GO TO | GOTO ) DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+   ;
+
+ongosubnumstmt //this definition requires a space around expression
+   : ON expression ( GOSUB_NUM | GO SUB_NUM ) (',' DIGIT_SEQUENCE)*
+   ;
+
+ongosubstmt //this definition requires a space around expression
+   : ON expression ( GO SUB | GOSUB ) DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
    ;
 
 returnstmt
@@ -588,16 +627,52 @@ THEN //if then
    : 'THEN'
    ;
 
+THEN_NUM //then500
+   : 'THEN' DIGIT_SEQUENCE
+   ;
+
+THEN_NUM_ELSE //then500else
+   : 'THEN' DIGIT_SEQUENCE 'ELSE'
+   ;
+
 ELSE //if then else
    : 'ELSE'
    ;
 
-GO //goto
+ELSE_NUM //else500
+   : 'ELSE' DIGIT_SEQUENCE
+   ;
+
+GO //go
    : 'GO'
    ;
 
-SUB //gosub
+GOTO //goto
+   : 'GOTO'
+   ;
+
+GOTO_NUM //goto500
+   : 'GOTO' DIGIT_SEQUENCE
+   ;
+
+TO_NUM //TO500
+   : 'TO' DIGIT_SEQUENCE
+   ;
+
+GOSUB //gosub
+   : 'GOSUB'
+   ;
+
+GOSUB_NUM //gosub500
+   : 'GOSUB' DIGIT_SEQUENCE
+   ;
+
+SUB //sub
    : 'SUB'
+   ;
+
+SUB_NUM //sub500
+   : 'SUB' DIGIT_SEQUENCE
    ;
 
 ON //on gosub
@@ -768,6 +843,27 @@ NOT
 
 EQ //equals sign
    : '='
+   ;
+
+NEQ
+   : '<' '>'
+   | '>' '<'
+   ;
+
+GTE
+    : '>' '='
+    ;
+
+LTE
+    : '<' '='
+    ;
+
+LT
+   : '<'
+   ;
+
+GT
+   : '>'
    ;
 
 ADDITION

@@ -51,17 +51,101 @@ public interface ITestBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatement([NotNull] TestBasicParser.StatementContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ongotonumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOngotonumstmt([NotNull] TestBasicParser.OngotonumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ongotostmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOngotostmt([NotNull] TestBasicParser.OngotostmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ongosubnumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOngosubnumstmt([NotNull] TestBasicParser.OngosubnumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ongosubstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOngosubstmt([NotNull] TestBasicParser.OngosubstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.gotonumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGotonumstmt([NotNull] TestBasicParser.GotonumstmtContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TestBasicParser.gotostmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitGotostmt([NotNull] TestBasicParser.GotostmtContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.gosubnumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGosubnumstmt([NotNull] TestBasicParser.GosubnumstmtContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TestBasicParser.gosubstmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitGosubstmt([NotNull] TestBasicParser.GosubstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.returnstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitReturnstmt([NotNull] TestBasicParser.ReturnstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ifthenelsestmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfthenelsestmt([NotNull] TestBasicParser.IfthenelsestmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ifthenelsenumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfthenelsenumstmt([NotNull] TestBasicParser.IfthenelsenumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ifthenstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfthenstmt([NotNull] TestBasicParser.IfthenstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ifnumelsenumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfnumelsenumstmt([NotNull] TestBasicParser.IfnumelsenumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ifnumstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfnumstmt([NotNull] TestBasicParser.IfnumstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.ifstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfstmt([NotNull] TestBasicParser.IfstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLetstmt([NotNull] TestBasicParser.LetstmtContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="TestBasicParser.expression"/>.
 	/// </summary>
@@ -74,5 +158,23 @@ public interface ITestBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitCharacterExpression([NotNull] TestBasicParser.CharacterExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.relationalExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRelationalExpression([NotNull] TestBasicParser.RelationalExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.relationalOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRelationalOperator([NotNull] TestBasicParser.RelationalOperatorContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.logicalOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLogicalOperator([NotNull] TestBasicParser.LogicalOperatorContext context);
 }
 } // namespace BASICLanguageParser

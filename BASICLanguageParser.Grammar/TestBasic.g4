@@ -14,28 +14,85 @@ line
 
 /************************master statement table****************************/
 statement
-    : gotostmt
+    : gotonumstmt
+    | gotostmt
+    | gosubnumstmt
     | gosubstmt
+    | ongotonumstmt
+    | ongotostmt
+    | ongosubnumstmt
+    | ongosubstmt
     | returnstmt
+    | ifthenelsestmt
+    | ifthenelsenumstmt
+    | ifthenstmt
+    | ifnumelsenumstmt
+    | ifnumstmt
+    | ifstmt
     | letstmt
     ;
 
 /******************************statements*********************************/
+ongotonumstmt //this definition requires a space around expression
+   : ON expression ( GOTO_NUM | GO TO_NUM ) (',' DIGIT_SEQUENCE)*
+   ;
+
+ongotostmt //this definition requires a space around expression
+   : ON expression ( GO TO | GOTO ) DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+   ;
+
+ongosubnumstmt //this definition requires a space around expression
+   : ON expression ( GOSUB_NUM | GO SUB_NUM ) (',' DIGIT_SEQUENCE)*
+   ;
+
+ongosubstmt //this definition requires a space around expression
+   : ON expression ( GO SUB | GOSUB ) DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+   ;
+
+gotonumstmt //seperate from gotostmt in order to extract the line number
+   : ( GOTO_NUM
+   | ( GO TO_NUM ))
+   ;
 
 gotostmt
-   : ( GOTO_NUM
-   | ( GO TO_NUM )
-   | ( GO TO | GOTO ) DIGIT_SEQUENCE )
+   : ( ( GO TO | GOTO ) DIGIT_SEQUENCE )
+   ;
+
+gosubnumstmt //seperate from gosubstmt in order to extract the line number
+   : ( GOSUB_NUM
+   | ( GO SUB_NUM ) )
    ;
 
 gosubstmt
-   : ( GOSUB_NUM
-   | ( GO SUB_NUM )
-   | ( GO SUB | GOSUB ) DIGIT_SEQUENCE )
+   : ( ( GO SUB | GOSUB ) DIGIT_SEQUENCE )
    ;
 
 returnstmt
    : RETURN
+   ;
+
+ifthenelsestmt //requires space around expression
+   : IF relationalExpression THEN (statement | DIGIT_SEQUENCE) ELSE (statement | DIGIT_SEQUENCE)
+   ;
+
+ifthenelsenumstmt //requires space around expression
+   : IF relationalExpression THEN (statement | DIGIT_SEQUENCE) ELSE_NUM
+   ;
+
+ifthenstmt //requires space around expression
+   : IF relationalExpression THEN (statement | DIGIT_SEQUENCE)
+   ;
+
+ifnumelsenumstmt //if expr then500else500
+   : IF relationalExpression (THEN_NUM_ELSE)
+   ;
+
+ifnumstmt //if expr then500
+   : IF relationalExpression (THEN_NUM)
+   ;
+
+ifstmt //if expr 500
+   : IF relationalExpression DIGIT_SEQUENCE
    ;
 
 letstmt
@@ -60,7 +117,34 @@ characterExpression
    : characterExpression ADDITION characterExpression
    | VARIABLE_STRING_ARRAY
    | VARIABLE_STRING
+   | VARIABLE_NUMBER_ARRAY
+   | VARIABLE_NUMBER
    | STRINGLITERAL
+   | LPAREN characterExpression RPAREN
+   ;
+
+/************************relation operations****************************/
+
+relationalExpression
+   : relationalExpression logicalOperator relationalExpression
+   | relationalExpression (<assoc=right> NOT relationalExpression)
+   | expression relationalOperator expression
+   | characterExpression relationalOperator characterExpression
+   | LPAREN relationalExpression RPAREN
+   ;
+
+relationalOperator
+   : GTE
+   | LTE
+   | NEQ
+   | EQ
+   | LT
+   | GT
+   ;
+
+logicalOperator
+   : AND
+   | OR
    ;
 
 /******************************Lexer***************************************/
@@ -100,12 +184,52 @@ SUB_NUM //sub500
    : 'SUB' DIGIT_SEQUENCE
    ;
 
+ON
+   : 'ON'
+   ;
+
 RETURN //return
    : 'RETURN'
    ;
 
+IF //if 
+   : 'IF'
+   ;
+
+THEN //if then
+   : 'THEN'
+   ;
+
+THEN_NUM //then500
+   : 'THEN' DIGIT_SEQUENCE
+   ;
+
+THEN_NUM_ELSE //then500else
+   : 'THEN' DIGIT_SEQUENCE 'ELSE'
+   ;
+
+ELSE //if then else
+   : 'ELSE'
+   ;
+
+ELSE_NUM //else500
+   : 'ELSE' DIGIT_SEQUENCE
+   ;
+
 LET //assign variables
    : 'LET'
+   ;
+
+AND
+   : 'AND'
+   ;
+
+OR
+   : 'OR'
+   ;
+
+NOT
+   : 'NOT'
    ;
 
 EQ //equals sign
@@ -138,6 +262,27 @@ LPAREN
 
 RPAREN
    : ')'
+   ;
+
+NEQ
+   : '<' '>'
+   | '>' '<'
+   ;
+
+GTE
+    : '>' '='
+    ;
+
+LTE
+    : '<' '='
+    ;
+
+LT
+   : '<'
+   ;
+
+GT
+   : '>'
    ;
 
 VARIABLE_STRING_ARRAY

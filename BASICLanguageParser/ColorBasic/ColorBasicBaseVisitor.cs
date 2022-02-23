@@ -96,7 +96,7 @@ public partial class ColorBasicBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.relop"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.relationalOperator"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -104,7 +104,17 @@ public partial class ColorBasicBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitRelop([NotNull] ColorBasicParser.RelopContext context) { return VisitChildren(context); }
+	public virtual Result VisitRelationalOperator([NotNull] ColorBasicParser.RelationalOperatorContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.logicalOperator"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLogicalOperator([NotNull] ColorBasicParser.LogicalOperatorContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.variableList"/>.
 	/// <para>

@@ -89,6 +89,45 @@ namespace BASICLanguageParser.UT
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }
 
+        [Test]
+        public void SimpleTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "simple_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(3, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void StringExpressionTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "string_expression_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void GotoGosubTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "goto_gosub_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void OnGotoGosubTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "on_goto_gosub_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void IfThenElseTest()
+        {   //tests line number, LET token, math expressions, variables names
+            var filename = "if_then_else_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
         /*************************************Internal****************************************/
 
         private ErrorResult RunProg(string filename)

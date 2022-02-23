@@ -104,7 +104,7 @@ letstmt
 expression
    : expression (MULTIPLICATION | DIVISION) expression
    | expression (ADDITION | SUBTRACTION) expression
-   | expression (<assoc=right> '^' expression)
+   | expression (<assoc=right> EXPONENT expression)
    | (<assoc=right> (ADDITION | SUBTRACTION) expression)
    | VARIABLE_NUMBER_ARRAY
    | VARIABLE_NUMBER
@@ -127,7 +127,7 @@ characterExpression
 
 relationalExpression
    : relationalExpression logicalOperator relationalExpression
-   | relationalExpression (<assoc=right> NOT relationalExpression)
+   | (<assoc=right> NOT relationalExpression)
    | expression relationalOperator expression
    | characterExpression relationalOperator characterExpression
    | LPAREN relationalExpression RPAREN
@@ -264,17 +264,23 @@ RPAREN
    : ')'
    ;
 
+EXPONENT
+   : '^'
+   ;
+
 NEQ
-   : '<' '>'
-   | '>' '<'
+   : LT GT
+   | GT LT
    ;
 
 GTE
-    : '>' '='
+    : GT EQ
+    | EQ GT
     ;
 
 LTE
-    : '<' '='
+    : LT EQ
+    | EQ LT
     ;
 
 LT

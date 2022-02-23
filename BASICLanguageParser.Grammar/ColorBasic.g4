@@ -172,7 +172,7 @@ expression
    | VARIABLE_NUMBER
    | DIGIT_SEQUENCE
    | NUMBER
-   | '(' expression ')'
+   | LPAREN expression RPAREN
    ;
 
 characterExpression
@@ -182,15 +182,20 @@ characterExpression
    | VARIABLE_NUMBER_ARRAY
    | VARIABLE_NUMBER
    | STRINGLITERAL
+   | LPAREN characterExpression RPAREN
    ;
 
 /************************relation operations****************************/
 
 relationalExpression
-   : expression relop expression
+   : relationalExpression logicalOperator relationalExpression
+   | (<assoc=right> NOT relationalExpression)
+   | expression relationalOperator expression
+   | characterExpression relationalOperator characterExpression
+   | LPAREN relationalExpression RPAREN
    ;
 
-relop
+relationalOperator
    : GTE
    | LTE
    | NEQ
@@ -199,6 +204,11 @@ relop
    | GT
    ;
 
+logicalOperator
+   : AND
+   | OR
+   ;
+   
 // variableDeclaration
 //    : VARIABLE_NUMBER ('(' expressionList ')')*
 //    ;
@@ -222,55 +232,55 @@ variableList
 
 /*******************functions**********************/
 absfunc
-   : ABS '(' expression ')'
+   : ABS LPAREN expression RPAREN
    ;
 
 ascfunc
-   : ASC '(' expression ')'
+   : ASC LPAREN expression RPAREN
    ;
 
 sgnfunc
-   : SGN '(' expression ')'
+   : SGN LPAREN expression RPAREN
    ;
 
 intfunc
-   : INT '(' expression ')'
+   : INT LPAREN expression RPAREN
    ;
 
 sinfunc
-   : SIN '(' expression ')'
+   : SIN LPAREN expression RPAREN
    ;
 
 rndfunc
-   : RND '(' expression ')'
+   : RND LPAREN expression RPAREN
    ;
 
 lenfunc
-   : LEN '(' expression ')'
+   : LEN LPAREN expression RPAREN
    ;
 
 valfunc
-   : VAL '(' expression ')'
+   : VAL LPAREN expression RPAREN
    ;
 
 chrfunc
-   : CHR '(' expression ')'
+   : CHR LPAREN expression RPAREN
    ;
 
 midfunc
-   : MID '(' expression ',' expression ',' expression ')'
+   : MID LPAREN expression ',' expression ',' expression RPAREN
    ;
 
 leftfunc
-   : LEFT '(' expression ',' expression ')'
+   : LEFT LPAREN expression ',' expression RPAREN
    ;
 
 rightfunc
-   : RIGHT '(' expression ',' expression ')'
+   : RIGHT LPAREN expression ',' expression RPAREN
    ; 
 
 strfunc
-   : STR '(' expression ')'
+   : STR LPAREN expression RPAREN
    ;
 
 inkeyfunc
@@ -278,19 +288,19 @@ inkeyfunc
    ;
 
 joystkfunc
-   : JOYSTK '(' expression ')'
+   : JOYSTK LPAREN expression RPAREN
    ;
 
 eoffunc
-   : EOFTOKEN '(' expression ')'
+   : EOFTOKEN LPAREN expression RPAREN
    ;
 
 peekfunc
-   : PEEK '(' expression ')'
+   : PEEK LPAREN expression RPAREN
    ;
 
 pointfunc
-   : POINT '(' expression ',' expression ')'
+   : POINT LPAREN expression ',' expression RPAREN
    ;
 
 memfunc
@@ -298,7 +308,7 @@ memfunc
    ; 
 
 usrfunc
-   : USR SINGLE_DIGIT '(' expression ')'
+   : USR SINGLE_DIGIT LPAREN expression RPAREN
    ;
 
 /*******************statements**********************/
@@ -440,7 +450,7 @@ printstmt
    ;
 
 printtabstmt
-   : PRINT TAB '(' expression ')' ';' expression
+   : PRINT TAB LPAREN expression RPAREN ';' expression
    ;
 
 printhashstmt
@@ -452,11 +462,11 @@ printatstmt
    ;
 
 setstmt
-   : SET '(' expression ',' expression (',' expression)+ ')'
+   : SET LPAREN expression ',' expression (',' expression)+ RPAREN
    ;
    
 resetstmt
-   : RESET '(' expression ',' expression ')'
+   : RESET LPAREN expression ',' expression RPAREN
    ;
 
 clsstmt
@@ -829,6 +839,14 @@ DEVICE_RS232
     : '-3'
     ;
 
+LPAREN
+   : '('
+   ;
+
+RPAREN
+   : ')'
+   ;
+
 OR
    : 'OR'
    ;
@@ -846,16 +864,18 @@ EQ //equals sign
    ;
 
 NEQ
-   : '<' '>'
-   | '>' '<'
+   : LT GT
+   | GT LT
    ;
 
 GTE
-    : '>' '='
+    : GT EQ
+    | EQ GT
     ;
 
 LTE
-    : '<' '='
+    : LT EQ
+    | EQ LT
     ;
 
 LT
@@ -891,11 +911,11 @@ VARIABLE_STRING
    ;
 
 VARIABLE_NUMBER_ARRAY
-   : VARIABLE_NUMBER '(' DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* ')'
+   : VARIABLE_NUMBER LPAREN DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* RPAREN
    ;
 
 VARIABLE_STRING_ARRAY
-   : VARIABLE_STRING '(' DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* ')'
+   : VARIABLE_STRING LPAREN DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)* RPAREN
    ;
 
 LETTER

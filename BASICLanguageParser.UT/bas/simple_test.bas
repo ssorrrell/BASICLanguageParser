@@ -14,6 +14,6 @@
 100 O=1.78E-9
 110 W=3.14159
 120 ZZ=1.678767E27
-130 GO=100
-140 TO=100
-150 SUB=100
+130 GO=100 'generates error
+140 TO=100 'generates error
+150 SUB=100 'generates error

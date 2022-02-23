@@ -4,18 +4,20 @@ using System.Collections.Generic;
 namespace BASICLanguageParser.Common
 {
     /**
-     * Classes and Enums to reproduce the Variable Table that the BASIC interpreter maintains
+     * Line number references; Gotos, Gosubs, Returns
      **/
     public class JumpTable
     {
         private Dictionary<int, JumpDefinition> JumpDefinitions = new Dictionary<int, JumpDefinition>();
 
-        public void AddJump(int LineNumber, string TestExpression, Dictionary<string, JumpInfo> JumpList)
+        public void AddJump(int LineNumber, string TestExpression, JumpType jumpType, List<int> JumpList)
         {
             JumpDefinition item = new JumpDefinition();
             item.LineNumber = LineNumber;
             if (JumpDefinitions.ContainsKey(LineNumber))
                 throw new Exception("Line Already Defined in JumpTable");
+            item.TestExpression = TestExpression;
+            item.JumpType = jumpType;
             item.Destinations = JumpList;
             JumpDefinitions.Add(LineNumber, item);
         }
@@ -40,9 +42,7 @@ namespace BASICLanguageParser.Common
     {
         public int LineNumber { get; set; }
         public JumpType JumpType { get; set; }
-
         public string TestExpression { get; set; }
-
         public List<int> Destinations { get; set; }
     }
 
@@ -54,8 +54,8 @@ namespace BASICLanguageParser.Common
         OnGosub,
         OnGoto,
         Goto,
-        GoSub
-
+        GoSub,
+        Return
     }
 
 }

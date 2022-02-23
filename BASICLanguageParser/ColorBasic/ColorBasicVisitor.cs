@@ -69,11 +69,17 @@ public interface IColorBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ColorBasicParser.relop"/>.
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.relationalOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRelop([NotNull] ColorBasicParser.RelopContext context);
+	Result VisitRelationalOperator([NotNull] ColorBasicParser.RelationalOperatorContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ColorBasicParser.logicalOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLogicalOperator([NotNull] ColorBasicParser.LogicalOperatorContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ColorBasicParser.variableList"/>.
 	/// </summary>

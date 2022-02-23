@@ -92,15 +92,25 @@ public interface IColorBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.relop"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.relationalOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterRelop([NotNull] ColorBasicParser.RelopContext context);
+	void EnterRelationalOperator([NotNull] ColorBasicParser.RelationalOperatorContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.relop"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.relationalOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitRelop([NotNull] ColorBasicParser.RelopContext context);
+	void ExitRelationalOperator([NotNull] ColorBasicParser.RelationalOperatorContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.logicalOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLogicalOperator([NotNull] ColorBasicParser.LogicalOperatorContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.logicalOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLogicalOperator([NotNull] ColorBasicParser.LogicalOperatorContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.variableList"/>.
 	/// </summary>

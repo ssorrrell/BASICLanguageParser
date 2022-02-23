@@ -109,17 +109,29 @@ public partial class ColorBasicBaseListener : IColorBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRelationalExpression([NotNull] ColorBasicParser.RelationalExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ColorBasicParser.relop"/>.
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.relationalOperator"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRelop([NotNull] ColorBasicParser.RelopContext context) { }
+	public virtual void EnterRelationalOperator([NotNull] ColorBasicParser.RelationalOperatorContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ColorBasicParser.relop"/>.
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.relationalOperator"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRelop([NotNull] ColorBasicParser.RelopContext context) { }
+	public virtual void ExitRelationalOperator([NotNull] ColorBasicParser.RelationalOperatorContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ColorBasicParser.logicalOperator"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLogicalOperator([NotNull] ColorBasicParser.LogicalOperatorContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ColorBasicParser.logicalOperator"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLogicalOperator([NotNull] ColorBasicParser.LogicalOperatorContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ColorBasicParser.variableList"/>.
 	/// <para>The default implementation does nothing.</para>

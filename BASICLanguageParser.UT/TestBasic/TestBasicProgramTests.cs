@@ -27,7 +27,7 @@ namespace BASICLanguageParser.UT
 
         [Test]
         public void StringExpressionTest()
-        {   //tests line number, LET token, math expressions, variables names
+        {   //tests character expressions
             var filename = "string_expression_test.bas";
             var result = RunProg(filename);
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
@@ -35,7 +35,7 @@ namespace BASICLanguageParser.UT
 
         [Test]
         public void GotoGosubTest()
-        {   //tests line number, LET token, math expressions, variables names
+        {   //tests goto, gosub, return
             var filename = "goto_gosub_test.bas";
             var result = RunProg(filename);
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
@@ -43,7 +43,7 @@ namespace BASICLanguageParser.UT
 
         [Test]
         public void OnGotoGosubTest()
-        {   //tests line number, LET token, math expressions, variables names
+        {   //tests on gosub, on goto, return
             var filename = "on_goto_gosub_test.bas";
             var result = RunProg(filename);
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
@@ -51,8 +51,16 @@ namespace BASICLanguageParser.UT
 
         [Test]
         public void IfThenElseTest()
-        {   //tests line number, LET token, math expressions, variables names
+        {   //tests if then else
             var filename = "if_then_else_test.bas";
+            var result = RunProg(filename);
+            Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
+        }
+
+        [Test]
+        public void ForNextTest()
+        {   //tests for next loops
+            var filename = "for_next_test.bas";
             var result = RunProg(filename);
             Assert.AreEqual(0, result.ErrorCount, "Wrong Error Count ProgTest Case: {0}", filename, result);
         }

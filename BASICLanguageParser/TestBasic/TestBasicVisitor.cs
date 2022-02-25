@@ -141,6 +141,18 @@ public interface ITestBasicVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitIfstmt([NotNull] TestBasicParser.IfstmtContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.forstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitForstmt([NotNull] TestBasicParser.ForstmtContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TestBasicParser.nextstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNextstmt([NotNull] TestBasicParser.NextstmtContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

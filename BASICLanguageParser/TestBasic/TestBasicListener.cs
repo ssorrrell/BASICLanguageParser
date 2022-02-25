@@ -212,6 +212,26 @@ public interface ITestBasicListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitIfstmt([NotNull] TestBasicParser.IfstmtContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.forstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterForstmt([NotNull] TestBasicParser.ForstmtContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.forstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitForstmt([NotNull] TestBasicParser.ForstmtContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.nextstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNextstmt([NotNull] TestBasicParser.NextstmtContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.nextstmt"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNextstmt([NotNull] TestBasicParser.NextstmtContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

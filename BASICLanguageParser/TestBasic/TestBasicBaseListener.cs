@@ -253,6 +253,30 @@ public partial class TestBasicBaseListener : ITestBasicListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitIfstmt([NotNull] TestBasicParser.IfstmtContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.forstmt"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterForstmt([NotNull] TestBasicParser.ForstmtContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.forstmt"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitForstmt([NotNull] TestBasicParser.ForstmtContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TestBasicParser.nextstmt"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNextstmt([NotNull] TestBasicParser.NextstmtContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TestBasicParser.nextstmt"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNextstmt([NotNull] TestBasicParser.NextstmtContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TestBasicParser.letstmt"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

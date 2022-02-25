@@ -29,24 +29,29 @@ statement
     | ifnumelsenumstmt
     | ifnumstmt
     | ifstmt
+    | forstmt
+   //  | fortonumstmt
+   //  | forstepnumstmt
+   //  | fortonumstepnumstmt
+    | nextstmt
     | letstmt
     ;
 
 /******************************statements*********************************/
 ongotonumstmt //this definition requires a space around expression
-   : ON expression ( GOTO_NUM | GO TO_NUM ) (',' DIGIT_SEQUENCE)*
+   : ON expression ( GOTO_NUM | GO TO_NUM ) (COMMA DIGIT_SEQUENCE)*
    ;
 
 ongotostmt //this definition requires a space around expression
-   : ON expression ( GO TO | GOTO ) DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+   : ON expression ( GO TO | GOTO ) DIGIT_SEQUENCE (COMMA DIGIT_SEQUENCE)*
    ;
 
 ongosubnumstmt //this definition requires a space around expression
-   : ON expression ( GOSUB_NUM | GO SUB_NUM ) (',' DIGIT_SEQUENCE)*
+   : ON expression ( GOSUB_NUM | GO SUB_NUM ) (COMMA DIGIT_SEQUENCE)*
    ;
 
 ongosubstmt //this definition requires a space around expression
-   : ON expression ( GO SUB | GOSUB ) DIGIT_SEQUENCE (',' DIGIT_SEQUENCE)*
+   : ON expression ( GO SUB | GOSUB ) DIGIT_SEQUENCE (COMMA DIGIT_SEQUENCE)*
    ;
 
 gotonumstmt //seperate from gotostmt in order to extract the line number
@@ -93,6 +98,30 @@ ifnumstmt //if expr then500
 
 ifstmt //if expr 500
    : IF relationalExpression DIGIT_SEQUENCE
+   ;
+
+// for stmt puts the for, the statment, and the next on 3 lines.  It needs "nextstmt"
+// forstmt
+//    : FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression TO expression (STEP expression)?
+//    ;
+
+// fortonumstmt
+//    : FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression TO_NUM (STEP expression)?
+//    ;
+
+// forstepnumstmt
+//    : FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression TO expression (STEP_NUM)?
+//    ;
+
+// fortonumstepnumstmt
+//    : FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression TO_NUM (STEP_NUM)?
+//    ;
+forstmt
+   : FORSTMT
+   ;
+
+nextstmt
+   : NEXTSTMT
    ;
 
 letstmt
@@ -148,6 +177,20 @@ logicalOperator
    ;
 
 /******************************Lexer***************************************/
+FORSTMT //for i=1to5 step 1
+   : 'FOR' LETTER (LETTER | DIGIT)* '=' DIGIT_SEQUENCE 'TO' DIGIT_SEQUENCE ('STEP' '-'? DIGIT_SEQUENCE)?
+   ;
+//FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ DIGIT_SEQUENCE TO DIGIT_SEQUENCE (STEP SUBTRACTION? DIGIT_SEQUENCE)?
+   
+NEXTSTMT
+   : 'NEXT' (VARIABLELISTNUMBER)?
+   ;
+
+VARIABLELISTNUMBER
+   : (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) (COMMA (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER))*
+   ;
+
+
 GO //go
    : 'GO'
    ;
@@ -216,6 +259,22 @@ ELSE_NUM //else500
    : 'ELSE' DIGIT_SEQUENCE
    ;
 
+FOR //for loop
+   : 'FOR'
+   ;
+
+STEP //for to step loop
+   : 'STEP'
+   ;
+
+STEP_NUM //TO500
+   : 'STEP' DIGIT_SEQUENCE
+   ;
+
+// NEXT //next closing statement to loop
+//    : 'NEXT'
+//    ;
+
 LET //assign variables
    : 'LET'
    ;
@@ -254,6 +313,10 @@ DIVISION
 
 COLON
    : ':'
+   ;
+
+COMMA
+   : ','
    ;
 
 LPAREN

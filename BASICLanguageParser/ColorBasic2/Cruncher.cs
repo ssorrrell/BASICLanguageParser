@@ -8,11 +8,16 @@ using BASICLanguageParser.Common;
 
 namespace BASICLanguageParser.ColorBasic2
 {
+    /**
+     * Color Basic Cruncher
+     * Based on the Assembly Language Deconstruction in the Unravelled series
+     * Similar to a lexer, but does not convert all character collections into tokens
+     * like ANTLR4.  Transcoded as close as possible to the original.
+     * Converts keywords into tokens above ASCII 128.  Should create a string that is the same
+     * length as what Color BASIC would make.
+     **/
     public class Cruncher
     {
-        //private const char EOF = 
-
-
         private Dictionary<string, string> PrimaryTokenDictionary = new Dictionary<string, string>();
         private Dictionary<string, string> SecondaryTokenDictionary = new Dictionary<string, string>();
         private Constants constants;

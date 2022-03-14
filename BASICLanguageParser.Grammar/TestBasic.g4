@@ -117,11 +117,11 @@ ifstmt //if expr 500
 //    : FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ expression TO_NUM (STEP_NUM)?
 //    ;
 forstmt
-   : FORSTMT
+   : FORTOSTEP
    ;
 
 nextstmt
-   : NEXTSTMT
+   : NEXT
    ;
 
 letstmt
@@ -132,9 +132,9 @@ letstmt
 /*****************************expressions*********************************/
 expression
    : expression (MULTIPLICATION | DIVISION) expression
-   | expression (ADDITION | SUBTRACTION) expression
+   | expression (PLUS | MINUS) expression
    | expression (<assoc=right> EXPONENT expression)
-   | (<assoc=right> (ADDITION | SUBTRACTION) expression)
+   | (<assoc=right> (PLUS | MINUS) expression)
    | VARIABLE_NUMBER_ARRAY
    | VARIABLE_NUMBER
    | DIGIT_SEQUENCE
@@ -143,7 +143,7 @@ expression
    ;
 
 characterExpression
-   : characterExpression ADDITION characterExpression
+   : characterExpression PLUS characterExpression
    | VARIABLE_STRING_ARRAY
    | VARIABLE_STRING
    | VARIABLE_NUMBER_ARRAY
@@ -177,19 +177,18 @@ logicalOperator
    ;
 
 /******************************Lexer***************************************/
-FORSTMT //for i=1to5 step 1
-   : 'FOR' LETTER (LETTER | DIGIT)* '=' DIGIT_SEQUENCE 'TO' DIGIT_SEQUENCE ('STEP' '-'? DIGIT_SEQUENCE)?
+FORTOSTEP //fori=1to5step1
+   : 'FOR' SPACES? (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) SPACES? '=' SPACES? MINUS? DIGIT_SEQUENCE SPACES? 'TO' SPACES? MINUS? DIGIT_SEQUENCE SPACES? ('STEP' SPACES? MINUS? DIGIT_SEQUENCE)?
    ;
-//FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ DIGIT_SEQUENCE TO DIGIT_SEQUENCE (STEP SUBTRACTION? DIGIT_SEQUENCE)?
-   
-NEXTSTMT
-   : 'NEXT' (VARIABLELISTNUMBER)?
+//FOR (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) EQ DIGIT_SEQUENCE TO DIGIT_SEQUENCE (STEP MINUS? DIGIT_SEQUENCE)?
+
+NEXT
+   : 'NEXT' ((VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) (COMMA (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER))*)?
    ;
 
-VARIABLELISTNUMBER
-   : (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) (COMMA (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER))*
-   ;
-
+// VARIABLELISTNUMBER
+//    : (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER) (COMMA (VARIABLE_NUMBER_ARRAY | VARIABLE_NUMBER))*
+//    ;
 
 GO //go
    : 'GO'
@@ -295,11 +294,11 @@ EQ //equals sign
    : '='
    ;
 
-ADDITION
+PLUS
    : '+'
    ;
 
-SUBTRACTION
+MINUS
    : '-'
    ;
 

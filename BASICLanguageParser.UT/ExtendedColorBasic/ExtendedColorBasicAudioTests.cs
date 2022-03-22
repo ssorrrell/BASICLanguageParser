@@ -5,7 +5,7 @@ using Antlr4.Runtime.Tree;
 
 namespace BASICLanguageParser.UT
 {
-    public class ExtendedColorBasicAudioTests : ColorBasicAudioTests
+    public class ExtendedColorBasicAudioTests : OneLineCruncherTests
     {
         /**
          * Tokens: SOUND AUDIO OFF

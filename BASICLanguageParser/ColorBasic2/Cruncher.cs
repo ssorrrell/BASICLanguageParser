@@ -22,6 +22,16 @@ namespace BASICLanguageParser.ColorBasic2
         private Dictionary<string, string> SecondaryTokenDictionary = new Dictionary<string, string>();
         private Constants constants;
 
+        private int inputPointer = 0;
+        private string inputBuffer = "";
+        private string outputBuffer = "";
+        private string currentCharacter = "";
+        private string nextCharacter = "";
+        private bool IllegalToken = false;
+        private bool Data = false;
+        private bool doSubLineCheck = false;
+        private bool doSpaceCheck = false;
+
         public Cruncher()
         {
             constants = new Constants();
@@ -29,82 +39,123 @@ namespace BASICLanguageParser.ColorBasic2
             LoadSecondaryTokenDictionary();
         }
 
-
         public string CrunchOneLine(string inputBuffer) //main loop
         {
-            bool IllegalToken = false;
-            bool Data = false;
             string scanDelimiter = "";
-            string outputBuffer = "";
+            //string outputBuffer = "";
             string tokenPotential = "";
+            this.inputBuffer = inputBuffer; //save input
+            this.outputBuffer = ""; //clear output
 
             //B82D get character
-            for (int inputPointer = 0; inputPointer < inputBuffer.Length; inputPointer++)
+            for (inputPointer = 0; inputPointer < inputBuffer.Length; inputPointer++)
             {
-                string currentCharacter = inputBuffer[inputPointer].ToString();
-                if (scanDelimiter.Length > 0 && currentCharacter == scanDelimiter)
-                {   //loop till delimiter found
-                    if (currentCharacter == scanDelimiter)
-                    {   //delimiter found
-                        outputBuffer = outputBuffer + currentCharacter;
-                        scanDelimiter = "";
+                bool foundEOF;
+                currentCharacter = inputBuffer[inputPointer].ToString();  //B82D
+                if ((inputPointer + 1) < inputBuffer.Length)
+                    nextCharacter = inputBuffer[inputPointer + 1].ToString();
+
+                if (doSubLineCheck)
+                {
+                    if (checkForEndOfSubline()) //if subline, reset flags, save character, loop - B829
+                    {
+                        doSubLineCheck = false;
+                        saveCharacter();
                         continue;
                     }
-                    //looking for delimiter
-                    outputBuffer = outputBuffer + currentCharacter;
-                    continue;
                 }
-                else if (constants.rgASCII_NUMBERS.IsMatch(currentCharacter))
-                {   //don't crunch ASCII Numbers
-                    outputBuffer = outputBuffer + currentCharacter;
-                    continue;
-                }
-                else if (constants.rgLOWER_CASE_ALPHA.IsMatch(currentCharacter))
-                {   //don't crunch Lower Case Alpha
-                    outputBuffer = outputBuffer + currentCharacter;
-                    continue;
-                }
-                else if (currentCharacter == " ")
-                {   //don't crunch spaces
-                    outputBuffer = outputBuffer + currentCharacter;
-                    scanDelimiter = " "; //set ScanDelimiter to space
-                    continue;
-                }
-                else if (currentCharacter == "\"")
+
+                if (IllegalToken)
                 {
-                    outputBuffer = outputBuffer + currentCharacter;
-                    scanDelimiter = "\""; //set ScanDelimiter to double quote
-                    continue;
+                    //B844 - space processing
+                    doSpaceCheck = true;
                 }
-                else if (Data)
-                {   //data flag set?
-                    outputBuffer = outputBuffer + currentCharacter;
-                    if (currentCharacter == ":")
-                    {   //end of subline clear flags
-                        //B829
-                        IllegalToken = false;
-                        Data = false;
+                //check for upper case, go to B852 if not
+                if ((int)currentCharacter[0] >= (int)'A' && (int)currentCharacter[0] <= (int)'Z')
+                {
+                    doSpaceCheck = true;
+                }
+                else
+                {
+                    if ((int)currentCharacter[0] < (int)'0')
+                    {   //characters below '0'
+                        IllegalToken = false; //B842
+                        doSpaceCheck = true;
                     }
-                    continue;
+                    else if ((int)currentCharacter[0] <= (int)'9')
+                    {   //characters below or equal to '9'  0..9
+                        saveCharacter(); //B852
+                        doSubLineCheck = true;
+                        continue;
+                    }
                 }
-                else if (currentCharacter == "?")
-                {   // print shortcut character
-                    outputBuffer = outputBuffer + PrimaryTokenDictionary["PRINT"]; //save x87 to stream
-                    continue;
-                }
-                else if (currentCharacter == "'")
-                {   // single apostrophe
-                    outputBuffer = outputBuffer + PrimaryTokenDictionary["'"]; //save x83 to stream
-                    scanDelimiter = Constants.EOL; //scan to end of line
-                    continue;
-                }
-                else if (currentCharacter == ";")
-                {
-                    outputBuffer = outputBuffer + currentCharacter;
-                    continue;
-                } else
-                {
-                    tokenPotential = tokenPotential + currentCharacter;
+                //if (doSpaceCheck) //B844  - space processing
+                //{
+                    if (currentCharacter == " ")
+                    {   //don't crunch spaces
+                        saveCharacter(); //B852
+                        doSubLineCheck = true;
+                        continue;
+                    }
+                    scanDelimiter = currentCharacter;
+                    if (currentCharacter == "\"") //B886
+                    {
+                        int result = scanTillDelimiter(scanDelimiter);
+                        if (result == 1)
+                        {   //found delimiter
+                            continue;
+                        }
+                        if (result == 2)
+                        {   //EOL
+                            outputBuffer = outputBuffer + "\r\n"; //B85C
+                            break;
+                        }
+                        if (result == 3)
+                        {   //EOF
+                            break;
+                        }
+                        doSubLineCheck = true;
+                        continue;
+                    }
+                    if (Data) //B84D - not marked
+                    {   //data flag set?
+                        //outputBuffer = outputBuffer + currentCharacter;
+                        int result = scanTillDelimiter(scanDelimiter);
+                        if (result == 1)
+                        {   //found delimiter
+                            continue;
+                        }
+                        if (result == 2)
+                        {   //EOL
+                            outputBuffer = outputBuffer + "\r\n"; //B85C
+                            break;
+                        }
+                        if (result == 3)
+                        {   //EOF
+                            break;
+                        }
+                        doSubLineCheck = true;
+                        continue;
+                    }
+                    if (currentCharacter == "?") //B86B
+                    {   // print shortcut character
+                        outputBuffer = outputBuffer + PrimaryTokenDictionary["PRINT"]; //save x87 to stream
+                        continue; //note: doesn't save current character and loops again
+                    }
+                    if (currentCharacter == "\'") //B873
+                    {   //REM processing
+                        outputBuffer = outputBuffer + PrimaryTokenDictionary["\'"]; //save x83 to stream
+                        processRemToken();
+                        break;
+                    }
+                    if ((int)currentCharacter[0] > (int)'0' && (int)currentCharacter[0] < (int)'<') //B88A
+                    {   //gets less than ASCII <
+                        // 0-9 : ; 
+                        saveCharacter(); //B852
+                        doSubLineCheck = true;
+                        continue;
+                    }
+                    tokenPotential = tokenPotential + currentCharacter; //B892
                     //see if token exists in tables
                     string tokenActual = ReplaceStringWithToken(tokenPotential);
                     if (tokenActual.Length > 0)
@@ -117,23 +168,26 @@ namespace BASICLanguageParser.ColorBasic2
                         {
                             Data = true;
                         }
-                        else if (tokenActual == PrimaryTokenDictionary["REM"])
-                        {
-                            scanDelimiter = Constants.EOL; //scan to end of line
-                        }
                         else
                         {
                             IllegalToken = false;
                             Data = false;
                         }
+                        outputBuffer = outputBuffer + tokenActual;
+                        if (tokenActual == PrimaryTokenDictionary["REM"])
+                        {
+                            processRemToken();
+                            break;
+                        }
                         tokenPotential = "";
                         tokenActual = "";
-                        outputBuffer = outputBuffer + tokenActual;
                         continue;
                     }
-                }
+                //}
             }
+            //outputBuffer = outputBuffer + Constants.EOL;
             return outputBuffer;
+
         }
 
         private string ReplaceStringWithToken(string s)
@@ -148,6 +202,86 @@ namespace BASICLanguageParser.ColorBasic2
                 returnValue = "\xFF" +  SecondaryTokenDictionary[s];
             }
             return returnValue;
+        }
+
+        private void saveCharacter()
+        {
+            outputBuffer = outputBuffer + currentCharacter; //save character
+        }
+
+        private void movePointerBackOne()
+        {
+            inputPointer--; //decrement pointer
+            currentCharacter = inputBuffer[inputPointer].ToString();
+            if ((inputPointer + 1) < inputBuffer.Length)
+                nextCharacter = inputBuffer[inputPointer + 1].ToString();
+        }
+
+        private bool incrementPointer()
+        {
+            inputPointer++; //increment pointer
+            if (inputPointer < inputBuffer.Length) //check EOF
+            {
+                currentCharacter = inputBuffer[inputPointer].ToString();
+                if ((inputPointer + 1) < inputBuffer.Length)
+                    nextCharacter = inputBuffer[inputPointer + 1].ToString();
+            }
+            else
+            {
+                return true; //EOF found
+            }
+            return false; //no EOF on the next character
+        }
+
+        private bool saveCharacterIncrementPointer()
+        {
+            saveCharacter(); //save character
+            return incrementPointer();
+        }
+
+        private int scanTillDelimiter(string scanDelimiter)
+        {
+            bool foundEOF = saveCharacterIncrementPointer();
+            while (currentCharacter != scanDelimiter && (currentCharacter + nextCharacter) != Constants.EOL && !foundEOF)
+            { //scan thru till delimiter or EOL or EOF  //B87E
+                foundEOF = saveCharacterIncrementPointer();
+            }
+            if ((currentCharacter + nextCharacter) == Constants.EOL)
+                return 2; //EOL found
+            if (inputPointer >= inputBuffer.Length)
+                return 3; //EOF found
+            movePointerBackOne();
+            return 1; //delimiter found
+        }
+
+        private bool checkForEndOfSubline()
+        {
+            if (currentCharacter == ":") //B852
+            {   //end of subline clear flags
+                //B829
+                IllegalToken = false;
+                Data = false;
+                return true;
+            }
+            return false;
+        }
+
+        private int processRemToken()
+        {
+            bool foundEOF = incrementPointer();
+            int result = 3;
+            if (!foundEOF)
+            {
+                result = scanTillDelimiter("\r"); //set ScanDelimiter to EOL
+                if (result == 1 || result == 2)
+                {   //found delimiter || EOL
+                    outputBuffer = outputBuffer + "\r\n";
+                }
+                if (result == 3)
+                {   //EOF
+                }
+            }
+            return result;
         }
 
         private void LoadPrimaryTokenDictionary()

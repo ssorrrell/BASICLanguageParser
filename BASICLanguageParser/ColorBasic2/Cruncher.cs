@@ -55,12 +55,18 @@ namespace BASICLanguageParser.ColorBasic2
                 if ((inputPointer + 1) < inputBuffer.Length)
                     nextCharacter = inputBuffer[inputPointer + 1].ToString();
 
+                if (currentCharacter == "\r" && nextCharacter == "\n")
+                {   //EOL breakout of loop
+                    outputBuffer = outputBuffer + "\r\n";
+                    break;
+                }
+
                 if (doSubLineCheck)
                 {
-                    if (checkForEndOfSubline()) //if subline, reset flags, save character, loop - B829
+                    if (CheckForEndOfSubline()) //if subline, reset flags, save character, loop - B829
                     {
                         doSubLineCheck = false;
-                        saveCharacter();
+                        SaveCharacter();
                         continue;
                     }
                 }
@@ -84,7 +90,7 @@ namespace BASICLanguageParser.ColorBasic2
                     }
                     else if ((int)currentCharacter[0] <= (int)'9')
                     {   //characters below or equal to '9'  0..9
-                        saveCharacter(); //B852
+                        SaveCharacter(); //B852
                         doSubLineCheck = true;
                         continue;
                     }
@@ -93,14 +99,14 @@ namespace BASICLanguageParser.ColorBasic2
                 //{
                     if (currentCharacter == " ")
                     {   //don't crunch spaces
-                        saveCharacter(); //B852
+                        SaveCharacter(); //B852
                         doSubLineCheck = true;
                         continue;
                     }
                     scanDelimiter = currentCharacter;
                     if (currentCharacter == "\"") //B886
                     {
-                        int result = scanTillDelimiter(scanDelimiter);
+                        int result = ScanTillDelimiter(scanDelimiter);
                         if (result == 1)
                         {   //found delimiter
                             continue;
@@ -120,7 +126,7 @@ namespace BASICLanguageParser.ColorBasic2
                     if (Data) //B84D - not marked
                     {   //data flag set?
                         //outputBuffer = outputBuffer + currentCharacter;
-                        int result = scanTillDelimiter(scanDelimiter);
+                        int result = ScanTillDelimiter(scanDelimiter);
                         if (result == 1)
                         {   //found delimiter
                             continue;
@@ -137,6 +143,9 @@ namespace BASICLanguageParser.ColorBasic2
                         doSubLineCheck = true;
                         continue;
                     }
+                    if ()
+                    SaveCharacter(); //B852
+                    doSubLineCheck = true;
                     if (currentCharacter == "?") //B86B
                     {   // print shortcut character
                         outputBuffer = outputBuffer + PrimaryTokenDictionary["PRINT"]; //save x87 to stream
@@ -145,13 +154,13 @@ namespace BASICLanguageParser.ColorBasic2
                     if (currentCharacter == "\'") //B873
                     {   //REM processing
                         outputBuffer = outputBuffer + PrimaryTokenDictionary["\'"]; //save x83 to stream
-                        processRemToken();
+                        ProcessRemToken();
                         break;
                     }
                     if ((int)currentCharacter[0] > (int)'0' && (int)currentCharacter[0] < (int)'<') //B88A
                     {   //gets less than ASCII <
                         // 0-9 : ; 
-                        saveCharacter(); //B852
+                        SaveCharacter(); //B852
                         doSubLineCheck = true;
                         continue;
                     }
@@ -176,7 +185,7 @@ namespace BASICLanguageParser.ColorBasic2
                         outputBuffer = outputBuffer + tokenActual;
                         if (tokenActual == PrimaryTokenDictionary["REM"])
                         {
-                            processRemToken();
+                            ProcessRemToken();
                             break;
                         }
                         tokenPotential = "";
@@ -204,12 +213,12 @@ namespace BASICLanguageParser.ColorBasic2
             return returnValue;
         }
 
-        private void saveCharacter()
+        private void SaveCharacter()
         {
             outputBuffer = outputBuffer + currentCharacter; //save character
         }
 
-        private void movePointerBackOne()
+        private void MovePointerBackOne()
         {
             inputPointer--; //decrement pointer
             currentCharacter = inputBuffer[inputPointer].ToString();
@@ -217,7 +226,7 @@ namespace BASICLanguageParser.ColorBasic2
                 nextCharacter = inputBuffer[inputPointer + 1].ToString();
         }
 
-        private bool incrementPointer()
+        private bool IncrementPointer()
         {
             inputPointer++; //increment pointer
             if (inputPointer < inputBuffer.Length) //check EOF
@@ -233,28 +242,28 @@ namespace BASICLanguageParser.ColorBasic2
             return false; //no EOF on the next character
         }
 
-        private bool saveCharacterIncrementPointer()
+        private bool SaveCharacterIncrementPointer()
         {
-            saveCharacter(); //save character
-            return incrementPointer();
+            SaveCharacter(); //save character
+            return IncrementPointer();
         }
 
-        private int scanTillDelimiter(string scanDelimiter)
+        private int ScanTillDelimiter(string scanDelimiter)
         {
-            bool foundEOF = saveCharacterIncrementPointer();
+            bool foundEOF = SaveCharacterIncrementPointer();
             while (currentCharacter != scanDelimiter && (currentCharacter + nextCharacter) != Constants.EOL && !foundEOF)
             { //scan thru till delimiter or EOL or EOF  //B87E
-                foundEOF = saveCharacterIncrementPointer();
+                foundEOF = SaveCharacterIncrementPointer();
             }
             if ((currentCharacter + nextCharacter) == Constants.EOL)
                 return 2; //EOL found
             if (inputPointer >= inputBuffer.Length)
                 return 3; //EOF found
-            movePointerBackOne();
+            MovePointerBackOne();
             return 1; //delimiter found
         }
 
-        private bool checkForEndOfSubline()
+        private bool CheckForEndOfSubline()
         {
             if (currentCharacter == ":") //B852
             {   //end of subline clear flags
@@ -266,13 +275,13 @@ namespace BASICLanguageParser.ColorBasic2
             return false;
         }
 
-        private int processRemToken()
+        private int ProcessRemToken()
         {
-            bool foundEOF = incrementPointer();
+            bool foundEOF = IncrementPointer();
             int result = 3;
             if (!foundEOF)
             {
-                result = scanTillDelimiter("\r"); //set ScanDelimiter to EOL
+                result = ScanTillDelimiter("\r"); //set ScanDelimiter to EOL
                 if (result == 1 || result == 2)
                 {   //found delimiter || EOL
                     outputBuffer = outputBuffer + "\r\n";
